@@ -90,7 +90,7 @@ sequenceDiagram
 ### Backend (Spring Boot)
 ```bash
 # Clone repository
-git clone [<repo-url>](https://github.com/ma-muktadeer/crime-report-map.git)
+git clone https://github.com/ma-muktadeer/crime-report-map.git
 cd server/dgfi-location-tracker-server
 
 # Configure application.properties
@@ -111,7 +111,7 @@ java -jar target/crime-report-app.jar
 # Navigate to frontend
 cd client/dgfi-loc-tkr
 
-# Download the tiles file from [<here>]([https://github.com/ma-muktadeer/crime-report-map.git](https://drive.google.com/file/d/1qqq_-lahYcgd8WJ9kcIeVQwzBa48aCHk/view?usp=sharing)) and unzip to the client/dgfi-loc-tkr/src/assets directory. **This zip contains two folders: 1. tiles and 2. geojson**
+# Download the tiles file from [here](https://drive.google.com/file/d/1qqq_-lahYcgd8WJ9kcIeVQwzBa48aCHk/view?usp=sharing)) and unzip to the client/dgfi-loc-tkr/src/assets directory. **This zip contains two folders: 1. tiles and 2. geojson**
 
 # Install dependencies
 npm install
