@@ -90,13 +90,14 @@ sequenceDiagram
 ### Backend (Spring Boot)
 ```bash
 # Clone repository
-git clone <repo-url>
-cd backend
+git clone [<repo-url>](https://github.com/ma-muktadeer/crime-report-map.git)
+cd server/dgfi-location-tracker-server
 
-# Configure application.yml
+# Configure application.properties
 # - MSSQL connection
 # - JWT keys
 # - Map/GeoJSON paths
+# - Place all the Frontend build files in the server/dgfi-location-tracker-server/src/main/resources/static directory. **ie, If the static directory is not found the create this folder.**
 
 # Build and run JAR
 mvn clean install
@@ -108,7 +109,9 @@ java -jar target/crime-report-app.jar
 ### Frontend (Angular)
 ```bash
 # Navigate to frontend
-cd frontend
+cd client/dgfi-loc-tkr
+
+# Download the tiles file from [<here>]([https://github.com/ma-muktadeer/crime-report-map.git](https://drive.google.com/file/d/1qqq_-lahYcgd8WJ9kcIeVQwzBa48aCHk/view?usp=sharing)) and unzip to the client/dgfi-loc-tkr/src/assets directory. **This zip contains two folders: 1. tiles and 2. geojson**
 
 # Install dependencies
 npm install
