@@ -107,11 +107,12 @@ java -jar target/crime-report-app.jar
 ---
 
 ### Frontend (Angular)
+Download the tiles file from [here](https://drive.google.com/file/d/1qqq_-lahYcgd8WJ9kcIeVQwzBa48aCHk/view?usp=sharing) and unzip it to the `client/dgfi-loc-tkr/src/assets` directory.  
+**This zip contains two folders: 1. tiles and 2. geojson**
+
 ```bash
 # Navigate to frontend
 cd client/dgfi-loc-tkr
-
-# Download the tiles file from [here](https://drive.google.com/file/d/1qqq_-lahYcgd8WJ9kcIeVQwzBa48aCHk/view?usp=sharing) and unzip to the client/dgfi-loc-tkr/src/assets directory. **This zip contains two folders: 1. tiles and 2. geojson**
 
 # Install dependencies
 npm install
