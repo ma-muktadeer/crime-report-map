@@ -118,6 +118,7 @@ npm install
 
 # Run the application
 ng serve
+
 ```
 
 Open browser at: `http://localhost:4200` (Bangla UI)
