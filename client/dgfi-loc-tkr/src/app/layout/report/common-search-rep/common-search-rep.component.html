@@ -1,0 +1,151 @@
+<form class="p-3 border rounded bg-white shadow-sm" [formGroup]="searchForm">
+  <!-- Type Selection Row -->
+  <div class="row align-items-center mb-3">
+    <div class="col-auto row">
+      <label for="ty" class="form-label fw-bold mb-0">ধরন:</label>
+
+      <!-- <div class=""> -->
+      <select class="form-select form-select-sm mx-1 col-md-4" id="ty" [value]="typeOfSearch()"
+        (change)="changeType($any($event.target)?.value)">
+        <option value="null" disabled>-- নির্বাচন করুন --</option>
+        @for (ty of types; track ty.id) {
+        @if (type != 'TABULAR' || type==ty.openType ) {
+        <option [value]="ty.name">{{ ty.nameBangla }}</option>
+        }
+        }
+      </select>
+      <!-- </div> -->
+    </div>
+  </div>
+
+  @if(typeOfSearch()) {
+  <!-- Crime Type Selection - Compact Grid -->
+  <div class="mb-3">
+    <h6 class="text-primary mb-2">বিষয়:</h6>
+    <div formArrayName="typeOfCrimeIdList" class="row g-1">
+      @for (crimeType of crimeList(); track crimeType.configId; let i = $index) {
+      <div class="col-auto">
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" [value]="crimeType.configId"
+            [id]="'crimeType_' + crimeType.configId" (change)="onCrimeTypeChange($event, crimeType.configId)">
+          <label class="form-check-label small" [for]="'crimeType_' + crimeType.configId">
+            {{crimeType.value1}}
+          </label>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+
+  <!-- Filters in Compact Grid -->
+  <div class="row g-2">
+    <!-- Date Range -->
+    <div class="col-md-4">
+      <label for="dateRange" class="form-label small fw-bold mb-1">সময়সীমা: <sup class="text-danger">*</sup></label>
+      <input type="text" class="form-control form-control-sm" id="dateRange" ngxDaterangepickerBootstrap
+        [(ngModel)]="selected" name="daterange" [locale]="bnLocale" placeholder="তারিখ নির্বাচন"
+        [ngModelOptions]="{standalone: true}" (ngModelChange)="onDateRangeChange($event)" startKey="start" endKey="end"
+        autocomplete="off" [closeOnAutoApply]="true" [autoApply]="true" separator=" To " [showDropdowns]="true"
+        [ngClass]="{'is-invalid': isSubmitted() && (formDate.invalid || toDate.invalid)}" />
+      @if (formDate.invalid || toDate.invalid) {
+      <div class="invalid-feedback small">
+        সময়সীমা নির্বাচন করুন
+      </div>
+      }
+    </div>
+
+    <!-- Location Selectors -->
+    <div class="col-md-4">
+      <label for="division" class="form-label small fw-bold mb-1">বিভাগ:</label>
+      <select class="form-select form-select-sm" id="division" formControlName="divisionId"
+        (change)="loadLocation($event, 'District', 'SELECT_DISTRICT')">
+        <option value="null" disabled>-- বিভাগ --</option>
+        @for (division of divisionList(); track division.idLocationKey) {
+        <option [value]="division.idLocationKey">{{ division.locationNameBn }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="col-md-4">
+      <label for="district" class="form-label small fw-bold mb-1">জেলা:</label>
+      <select class="form-select form-select-sm" id="district" formControlName="districtId"
+        (change)="loadLocation($event, 'Thana', 'SELECT_THANA')">
+        <option value="null" disabled>-- জেলা --</option>
+        @for (district of districtList(); track district.idLocationKey) {
+        <option [value]="district.idLocationKey">{{ district.locationNameBn }}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Additional Options -->
+    @if (isTimeInterval() && isChart) {
+    <div class="col-md-4">
+      <label for="timeInterval" class="form-label small fw-bold mb-1">সময় ব্যবধান</label>
+      <select id="timeInterval" class="form-select form-select-sm" formControlName="timeInterval">
+        <option value="monthly">মাসিক</option>
+        <option value="yearly">বার্ষিক</option>
+      </select>
+    </div>
+    }
+
+    @if (isCompareBy() && isChart) {
+    <div class="col-md-4">
+      <label for="compareBy" class="form-label small fw-bold mb-1">সময়ের তুলনা</label>
+      <select id="compareBy" class="form-select form-select-sm" formControlName="compareBy">
+        <option value="monthly">মাসিক</option>
+        <option value="yearly">বার্ষিক</option>
+      </select>
+    </div>
+    }
+    @if(isChart){
+    <div class="col-md-4">
+      <label for="crt-type" class="form-label small fw-bold mb-1">চার্টের ধরন</label>
+      <select id="crt-type" class="form-select form-select-sm" formControlName="chartType">
+        @for (type of chartTypes; track type.value) {
+        <option [value]="type.value" [selected]="type.value === chartType">
+          {{ type.display }}
+        </option>
+        }
+      </select>
+    </div>
+    }
+    @if(type == 'TABULAR') {
+    <div class="col-md-4">
+      <label for="politicalPartyId" class="form-label fw-bold">রাজনৈতিক দল/সংগঠন:</label>
+      <div class="d-flex align-items-center">
+        <select class="form-select form-select-sm" id="politicalPartyId" formControlName="politicalPartyId"
+          (change)="onPartyChange($event)">
+          <option value="null" disabled>-- একটি নির্বাচন করুন --</option>
+          @for (incident of politicalPartyList(); track incident.configId) {
+          <option [value]="incident.configId">{{ incident.value1 }}</option>
+          }
+          <option value="0">-- অন্যান্য --</option>
+        </select>
+      </div>
+    </div>
+    @if (showOtherInput()) {
+    <div class="col-md-4">
+      <label for="politicalPartyName" class="form-label fw-bold">যোগ করুন (রাজনৈতিক দল)</label>
+      <div class="d-flex align-items-center">
+        <input type="text" placeholder="যোগ করুন রাজনৈতিক দল/সংগঠন" class="form-control form-control-sm"
+          id="politicalPartyName" formControlName="politicalPartyName">
+      </div>
+    </div>
+    }
+
+    }
+  </div>
+
+  <!-- Submit Button -->
+  <div class="text-center mt-3">
+    <button type="submit" class="btn btn-primary btn-sm px-4" [disabled]="isLoading()" (click)="onSubmit()">
+      <i class="bi bi-search me-2"></i>
+      <span>| খুঁজুন </span>
+      @if(isLoading()){
+      <span [ngClass]="{ 'spinner-border': 'border' }" class="spinner-border-sm"
+        role="status" aria-hidden="true"></span>
+      }
+    </button>
+  </div>
+  }
+</form>

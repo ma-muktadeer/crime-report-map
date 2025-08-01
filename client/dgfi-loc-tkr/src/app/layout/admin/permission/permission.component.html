@@ -1,0 +1,155 @@
+<div class="row col-md-12">
+    <div class="col-md-4">
+        <div class="row">
+            <div class="col-md-12">
+                <h6>সমস্ত অনুমতি</h6>
+            </div>
+            <div class="col-md-12 row">
+                <input class="col-md-12" style="border-radius: 20px; border: 1px solid #b9c1c0;" placeholder="Search"
+                    type="text" (keyup)="onPermissionSearch($event)" />
+            </div>
+            <div style="margin-top: 10px;" class="ul-scrollable">
+                @for (group of filteredPermissionList(); track group) {
+                    <!-- *ngFor="let group of filteredPermissionList()" -->
+                    <div class="col-12"  (click)="onClickPermissionItem($event, group)">
+                        <div class="row hover-color"
+                            [ngClass]="{'select-color':clickedItem?.displayName == group.displayName}">
+                            <div class="col-12 ">
+                                <div class="row d-flex align-items-center "
+                                    style="padding: 2px; font-size: 12px;  border-bottom: solid 1px #ccc;">
+                                    <div class="col-11">
+                                        <a class="list-group-item text-left">
+                                            {{group.displayName}}
+                                        </a>
+                                    </div>
+                                    <div class="col-1">
+                                        <button
+                                            *ngIf="permissioinStoreService.hasPermission(permissioinStoreService.appPermission.SAVE_PERMISSION)"
+                                            title="edit" (click)="onEdit($event, group)" class="btn float-right"
+                                            style="padding: 2px; font-size: 12px; margin-left: -20px;">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+    
+                        </div>
+                    </div>
+                  
+                }
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="clickedItem" class="col-md-8">
+        <div class="row">
+            <div class="col-12">
+                <h2 style="background:white;" class="text-center">{{clickedItem ?
+                    clickedItem.displayName : ''}}
+                </h2>
+            </div>
+            <div class="col-12" style="text-align: center;">
+                <div class="row" cdkDropListGroup>
+                    <div class="example-container col-6">
+                        <h6 class="mb-3"><u>সমস্ত অনুমতি</u></h6>
+                        <div style="margin-top: 2px;" class="col-md-12">
+                            <div class="col-md-12 mb-2">
+                                <input class="col-md-12 px-3" style="border-radius: 20px; border: 1px solid #b9c1c0;"
+                                    placeholder="খুঁজুন.." type="text" (keyup)="onSearchPermission($event, 'UN')" />
+                            </div>
+                        </div>
+                        <div class="" cdkDropList [cdkDropListData]="unassignRoleList()" class="example-list"
+                            (cdkDropListDropped)="drop($event)">
+                            @for (role of unassignRoleList() ; track role) {
+                            <div class="example-box hover-color" style="cursor: move !important; padding: 2px;" cdkDrag>
+                                    <div class="px-2">
+                                        {{role.displayName}}
+                                    </div>
+                                    <!-- *ngFor="let role of unassignRoleList() -->
+                                    
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="example-container col-6 m-0">
+                        <h6 class="mb-3"><u>প্রাপ্ত অনুমতি</u></h6>
+                        <div style="margin-top: 2px;" class="col-md-12">
+                            <div class="col-md-12 mb-2">
+                                <input class="col-md-12 px-3" style="border-radius: 20px; border: 1px solid #b9c1c0;"
+                                    placeholder="খুঁজুন.." type="text" (keyup)="onSearchPermission($event, 'ASSIGN')" />
+                            </div>
+                        </div>
+                        <div cdkDropList [cdkDropListData]="assignRoleList" class="example-list"
+                            (cdkDropListDropped)="drop($event)">
+                            <div class="example-box hover-color" style="cursor: move !important; padding: 2px;"
+                                *ngFor="let role of assignRoleList" cdkDrag>
+                                <div class="px-2">
+                                    {{role.displayName}}
+                                </div>
+                            </div>
+                        </div>
+                        <div style="text-align: center;">
+                            <button
+                                *ngIf="permissioinStoreService.hasPermission(permissioinStoreService.appPermission.SAVE_PERMISSION)"
+                                (click)="onRoleSave()" [disabled]="disableAddSave" class="btn btn-primary"
+                                style="margin-top: 10px;">
+                                সংরক্ষণ
+                                <span class="spinner-border spinner-border-sm" *ngIf="spinnerAddSave"></span>
+                            </button>
+                            <!-- <button
+                                *ngIf="permissioinStoreService.hasPermission(permissioinStoreService.appPermission.SAVE_PERMISSION)"
+                                [(disabled)]="permissionBtnDisabled" (click)="onRoleSave()" class="btn btn-primary"
+                                style="margin-top: 5px;" pButton>Save
+                                <span class="spinner-border spinner-border-sm" *ngIf="spinnerAssignSave"
+                                    [mode]="'indeterminate'"></span>
+                            </button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal " tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">
+    <div class="modal-dialog modal-dialog-pdf" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class=" text-center">
+                    <h5 class=" ">অনুমতি</h5>
+
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="col-form-label ">অনুমতির নাম:</label>
+                    <input type="text" [(ngModel)]="displayName" name="displayName" class="form-control"
+                        [value]="displayName">
+                </div>
+                <div class="form-group">
+                    <label for="message-text" class="col-form-label">বিবরণ:</label>
+                    <textarea class="form-control" [(ngModel)]="desc" id="message-text"></textarea>
+                </div>
+            </div>
+            <!-- <div class="modal-footer"> -->
+            <div style="text-align: center; " class="mb-3">
+                <button (click)="onSave()" [disabled]="disableAddSave" class="btn btn-primary"
+                    style="margin-top: 10px;">
+                    সংরক্ষণ
+                    <span class="spinner-border spinner-border-sm" *ngIf="spinnerAddSave"></span>
+                </button>
+                <!-- <button (click)="onSave()" [disabled]="disableAddSave" class="btn btn-primary"
+                    style="margin-top: 10px;">Save
+                    <span class="spinner-border spinner-border-sm" *ngIf="spinnerAddSave"
+                        [mode]="'indeterminate'"></span>
+                </button>-->
+                &nbsp;
+                <button (click)="closePopup()" class="btn btn-danger" style="margin-top: 10px;">বাতিল</button>
+
+            </div>
+
+        </div>
+    </div>
+</div>

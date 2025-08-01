@@ -1,0 +1,114 @@
+<div class="card">
+  <div
+    class="card-header bg-primary text-white d-flex justify-content-between align-items-center py-2 px-3"
+  >
+    <h5 class="card-title text-white">অনুসন্ধান ফিল্টার</h5>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="row g-3">
+      <div class="col-md-3">
+        <label for="ty" class="form-label">ধরন:</label>
+        <select
+          class="form-select form-select-sm"
+          id="ty"
+          [value]="type()"
+          (change)="changeType($any($event.target)?.value)"
+        >
+          <option value="null" disabled>-- একটি নির্বাচন করুন --</option>
+          @for (ty of types; track ty.id) {
+          <option [value]="ty.name">{{ ty.nameBangla }}</option>
+          <!-- <option [value]="ty.name">{{ englishToBanglaTypeMap[ty.name] || ty.name }}</option> -->
+          }
+        </select>
+      </div>
+
+      @if (type()) {
+      <div class="col-md-3">
+        <label for="incident" class="form-label">বিষয়:</label>
+        <select
+          class="form-select form-select-sm"
+          id="incident"
+          formControlName="typeOfCrimeId"
+        >
+          <option value="null">-- একটি নির্বাচন করুন --</option>
+          @for (incident of incidentList(); track incident.configId) {
+          <option [value]="incident.configId">{{ incident.value1 }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label for="dateRange" class="form-label"
+          >সময়সীমা:
+          <sup class="fw-bold">*</sup>
+        </label>
+        <!-- <div class="input-group input-group-sm"> -->
+        <input
+          type="text"
+          class="form-control form-control-sm"
+          id="dateRange"
+          ngxDaterangepickerBootstrap
+          [(ngModel)]="selected"
+          name="daterange"
+          [locale]="bnLocale"
+          placeholder="সময়সীমা নির্বাচন করুন"
+          [ngModelOptions]="{ standalone: true }"
+          (ngModelChange)="onDateRangeChange($event)"
+          startKey="start"
+          endKey="end"
+          autocomplete="off"
+          [closeOnAutoApply]="true"
+          [autoApply]="true"
+          separator=" থেকে "
+          [showDropdowns]="true"
+          [ngClass]="{
+            'is-invalid': isSubmitted() && (formDate.invalid || toDate.invalid)
+          }"
+        />
+        @if (isSubmitted() && (formDate.invalid || toDate.invalid)) {
+        <div class="invalid-feedback">সময়সীমা নির্বাচন করুন</div>
+        }
+        <!-- </div> -->
+      </div>
+
+      <div class="col-md-4">
+        <label for="division" class="form-label">বিভাগ:</label>
+        <select
+          class="form-select form-select-sm"
+          id="division"
+          formControlName="divisionId"
+          (change)="loadLocation($event, 'District', 'SELECT_DISTRICT')"
+        >
+          <option value="null">-- বিভাগ নির্বাচন করুন --</option>
+          @for (division of divisionList(); track division.idLocationKey) {
+          <option [value]="division.idLocationKey">
+            {{ division.locationNameBn }}
+          </option>
+          }
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label for="district" class="form-label">জেলা:</label>
+        <select
+          class="form-select form-select-sm"
+          id="district"
+          formControlName="districtId"
+          (change)="loadLocation($event, 'Thana', 'SELECT_THANA')"
+        >
+          <option value="null">-- জেলা নির্বাচন করুন --</option>
+          @for (district of districtList(); track district.idLocationKey) {
+          <option [value]="district.idLocationKey">
+            {{ district.locationNameBn }}
+          </option>
+          }
+        </select>
+      </div>
+      <div class="col-12 d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary btn-sm">
+          <i class="bi bi-search me-2"></i>অনুসন্ধান করুন
+        </button>
+      </div>
+      }
+    </form>
+  </div>
+</div>

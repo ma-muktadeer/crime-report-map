@@ -1,0 +1,67 @@
+<app-search (onSearchAction)="searchList($event)"></app-search>
+@if(criminalList()){
+  <button (click)="printDetails()"  class="btn btn-primary">পিডিএফ ডাউনলোড করুন</button>
+  <div class="card">
+    <div class="card-body">
+      <app-soft-grid
+        [columnDefinitions]="columnDefinitions"
+        [datasetObs]="criminalList"
+        (onPaginationChanged)="paginationChanged($event)"
+        [enablePagination]="true"
+        [customPagination]="{ pageSizes: [10, 20, 50, 100], pageSize: pageSize }"
+      >
+      </app-soft-grid>
+    </div>
+  </div>
+}
+
+
+@if(true){
+  <div  hidden="true">
+    <div #pdfContent id="pdf-content" style="font-family: 'kalpurush', sans-serif;">
+     
+     
+      <h2 style="text-align: center;" >{{searchTypeName()}}</h2>
+      
+      <table cellspacing="0" cellpadding="5" style="width: 100%; border-collapse: collapse;">
+        <thead>
+          <tr>
+            <th>ক্রমিক</th>
+            <th style="width: 100px;">তারিখ ও সময়</th>
+            <th>বিষয়</th>
+            <th>বিভাগের নাম</th>
+            <th>জেলার নাম</th>
+            <th>ভিক্টিম</th>
+            <th>মূলহোতা</th>
+            <th>দল</th>
+            <th>স্থান</th>
+            <th>আইনগত / প্রশাসনিক ব্যবস্থা</th>
+            <th>প্রতিষ্ঠানের নাম</th>
+            <th>সংক্ষিপ্ত বিবরণ</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of criminalList()?.content ?? []; track $index; let i = $index){
+            <tr >
+              <td>{{ i + 1 }}</td>
+              <td>{{ formatDate(item.stDateTime) }}</td>
+              <td>{{ item.crimeType }}</td>
+              <td>{{ item.divisionName }}</td>
+              <td>{{ item.districtName }}</td>
+              <td>{{ item.victimDetails }}</td>
+              <td>{{ item.criminalDetails }}</td>
+              <td>{{ item.partyName }}</td>
+              <td>{{ item.locationName }}</td>
+              <td>{{ item.legalAdminAction }}</td>
+              <td>{{ item.organizationName}}</td>
+              <td>{{ item.description }}</td>
+            </tr>
+          }
+          
+        </tbody>
+      </table>
+    </div>
+    </div>
+}
+  
+

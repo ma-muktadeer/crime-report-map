@@ -1,0 +1,141 @@
+<div class="container-fluid">
+  <div
+    class="bg-light d-flex justify-content-center align-items-center py-1 mb-1"
+  >
+    <h6 class="mb-0">ব্যবহারকারী: {{ loginName }}</h6>
+  </div>
+
+  <div cdkDropListGroup>
+    <div class="row g-1">
+      <!-- Available Roles Column -->
+      <div class="col-md-6">
+        <div class="text-center mb-1">
+          <small>সমস্ত রোল</small>
+        </div>
+        <input
+          class="form-control form-control-sm mb-1"
+          placeholder="খুঁজুন.."
+          type="text"
+          (keyup)="onRoleSearch($event, 'AVAILABLE')"
+        />
+
+        <div
+          cdkDropList
+          [cdkDropListData]="filteredUnassignRoleList()"
+          class="border rounded bg-light p-1 overflow-auto"
+          style="height: 300px"
+          (cdkDropListDropped)="drop($event)"
+        >
+          <div
+            class="bg-white border rounded py-1 px-2 mb-1"
+            *ngFor="let role of filteredUnassignRoleList()"
+            cdkDrag
+          >
+            <small>{{ role.displayName }}</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Assigned Roles Column -->
+      <div class="col-md-6">
+        <div class="text-center mb-1">
+          <small>প্রাপ্ত রোল</small>
+        </div>
+        <input
+          class="form-control form-control-sm mb-1"
+          disabled
+          placeholder="খুঁজুন.."
+          type="text"
+        />
+
+        <div
+          cdkDropList
+          [cdkDropListData]="assignRoleList()"
+          class="border rounded bg-light p-1 overflow-auto"
+          style="height: 300px"
+          (cdkDropListDropped)="drop($event)"
+        >
+          <!-- <div class="bg-white border rounded py-1 px-2 mb-1" 
+                   *ngFor="let role of assignRoleList()" 
+                   cdkDrag>
+                  <div class="d-flex justify-content-between align-items-center">
+                      <small>{{role.displayName}}</small> -->
+          @for (role of assignRoleList(); track role.displayName) {
+          <div class="bg-white border rounded py-1 px-2 mb-1" cdkDrag>
+            <div class="d-flex justify-content-between align-items-center">
+              <small>{{ role.displayName }}</small>
+              <div class="action-buttons">
+                @if ((role.genericMapStatus == 'PEND_DEASSINED' ||
+                role.genericMapStatus == 'PEND_ASSIGN') &&
+                permissioinStoreService.hasPermission(appPermission.USER_MAKER)
+                && showSameUserBtn) {
+                <button
+                  class="btn btn-link btn-sm p-0 me-1"
+                  title="Undo"
+                  (click)="onUndoAssignDeAssign(role)"
+                >
+                  <i class="fa fa-undo text-warning"></i>
+                </button>
+                } @if (role.genericMapStatus == 'PEND_ASSIGN' &&
+                permissioinStoreService.hasPermission(appPermission.USER_APPROVER)
+                && showSameUserBtn) {
+                <button
+                  class="btn btn-link btn-sm p-0 me-1"
+                  title="Approve"
+                  (click)="onApprove(role)"
+                >
+                  <i class="fa fa-check text-success"></i>
+                </button>
+                } @if (role.genericMapStatus == 'PEND_DEASSINED' &&
+                permissioinStoreService.hasPermission(appPermission.USER_APPROVER)
+                && showSameUserBtn) {
+                <button
+                  class="btn btn-link btn-sm p-0"
+                  title="Approve De-assign"
+                  (click)="onApproveDeassign(role)"
+                >
+                  <i class="fa fa-times text-danger"></i>
+                </button>
+                }
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+
+        <!-- <div class="d-flex justify-content-center gap-1 mt-2">
+                  <button class="btn btn-primary btn-sm"
+                          *ngIf="showSameUserBtn && permissioinStoreService.hasPermission(permissioinStoreService.appPermission.USER_MAKER)"
+                          [disabled]="manageRoleBtnDisabled"
+                          (click)="manageRoleBtnClick()">
+                      সংরক্ষণ করুন
+                      <span class="spinner-border spinner-border-sm ms-1" *ngIf="spinnerManage"></span>
+                  </button>
+                  <button class="btn btn-secondary btn-sm" (click)="backBtnClick()">পেছনে যান</button>
+              </div> -->
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center gap-1 mt-2">
+    <button
+      class="btn btn-primary btn-sm"
+      *ngIf="
+        showSameUserBtn &&
+        permissioinStoreService.hasPermission(
+          permissioinStoreService.appPermission.USER_MAKER
+        )
+      "
+      [disabled]="manageRoleBtnDisabled"
+      (click)="manageRoleBtnClick()"
+    >
+      সংরক্ষণ করুন
+      <span
+        class="spinner-border spinner-border-sm ms-1"
+        *ngIf="spinnerManage"
+      ></span>
+    </button>
+    <button class="btn btn-secondary btn-sm" (click)="backBtnClick()">
+      পেছনে যান
+    </button>
+  </div>
+</div>

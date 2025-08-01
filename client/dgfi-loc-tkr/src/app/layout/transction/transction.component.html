@@ -1,0 +1,159 @@
+<div class="container ml-3 mt-0 p-n2">
+  <form [formGroup]="searchForm" class="p-0">
+    <div class="row g-2 align-items-end mb-1">
+      <div class="col">
+        <label for="fromDate" class="form-label fw-semibold small">From Date</label>
+        <input formControlName="fromDate" type="date" class="form-control form-control-sm" id="fromDate">
+      </div>
+      <div class="col">
+        <label for="toDate" class="form-label fw-semibold small">To Date</label>
+        <input formControlName="toDate" type="date" class="form-control form-control-sm" id="toDate">
+      </div>
+      <div class="col">
+        <label for="cbsTransactionId" class="form-label fw-semibold small">Transiction ID</label>
+        <input formControlName="cbsTransactionId" type="text" class="form-control form-control-sm"
+          id="cbsTransactionId">
+      </div>
+      <div class="col">
+        <label for="cbsCreditAccount" class="form-label fw-semibold small">Credit Account</label>
+        <input formControlName="cbsCreditAccount" type="text" class="form-control form-control-sm"
+          id="cbsCreditAccount">
+      </div>
+    </div>
+
+    <div class="row g-2 align-items-end mb-1">
+
+      <div class="col">
+        <label for="fundTargetTxnId" class="form-label fw-semibold small">Target Fund</label>
+        <input formControlName="fundTargetTxnId" type="text" class="form-control form-control-sm" id="fundTargetTxnId">
+      </div>
+      <div class="col">
+        <label for="cbsTxnStatus" class="form-label fw-semibold small">Transaction Status</label>
+        <select style="height: 30px; padding: 2px 8px;" formControlName="cbsTxnStatus"
+          class="form-control form-control-sm" id="cbsTxnStatus">
+          <option value="">Select Status</option>
+          <option value="SUCCESS">Success</option>
+          <option value="FAIL">Fail</option>
+          <option value="PENDING">Pending</option>
+          <option value="NOT_REVERSED">Not Reversed</option>
+          <option value="REVERSED_FAIL">Reversed Fail</option>
+          <option value="INIT">Init</option>
+          <option value="REVERSED">Reversed</option>
+          <option value="UNKNOWN">Unknown</option>
+          <option value="P2P_CREDIT_TIMEOUT">P2P Credit Timeout</option>
+        </select>
+      </div>
+      <div class="col">
+        <label for="transactionType" class="form-label fw-semibold small">Transaction Type</label>
+        <select style="height: 30px; padding: 2px 8px;" formControlName="transactionType"
+          class="form-control form-control-sm" id="transactionType">
+          <option value="">Select Type</option>
+          <option value="CARD_TO_MFS">Card to MFS</option>
+          <option value="ACCOUNT_TO_OTHER_BANK_ACCOUNT">Account to Other Bank Account</option>
+          <option value="ACCOUNT_TO_OTHER_BANK_CARD">Account to Other Bank Card</option>
+          <option value="CARD_TO_OWN_BANK_ACCOUNT">Card to Own Bank Account</option>
+          <option value="CARD_TO_OTHER_BANK_ACCOUNT">Card to Other Bank Account</option>
+          <option value="CARD_TO_OTHER_BANK_CARD">Card to Other Bank Card</option>
+        </select>
+      </div>
+
+      <div class="col">
+        <label class="form-label fw-semibold small">&nbsp;</label>
+        <div class="d-flex gap-2" style="height: 30px;">
+          <div class="d-flex gap-0">
+            <button (click)="loadTransction()" class="btn btn-primary btn-sm d-flex align-items-center gap-2">
+              <span>Search</span>
+            </button>
+            <button (click)="reset()" class="btn btn-warning btn-sm d-flex align-items-center gap-2">
+              <span>Reset</span>
+            </button>
+          </div>
+          <div class="d-flex justify-content-end custom-padding">
+            <fieldset class="d-flex align-items-center">
+              <!-- <legend class="d-flex align-items-center" style="font-size: x-small;">Export</legend> -->
+              <div title="download EXCEL" (click)="download('EXCEL')">
+                <img class="pointer"
+                  style="width:20px;height:20px; filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(86deg) brightness(90%) contrast(80%);"
+                  src="assets/icons/file-earmark-spreadsheet.svg" alt="">
+              </div>
+              <div title="download CSV" (click)="download('CSV')">
+                <img
+                  style="width:20px;height:20px; filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(200deg) brightness(90%) contrast(80%);"
+                  src="assets/icons/filetype-csv.svg" alt="">
+              </div>
+              <!-- <div title="download PDF" (click)="download('PDF')">
+              <img
+                style="width:20px;height:20px; filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(330deg) brightness(90%) contrast(80%);"
+                src="assets/icons/file-earmark-pdf.svg" alt="">
+            </div> -->
+              <div *ngIf="progress() >= 0" class="d-flex align-items-center gap-2">
+                <div class="progress" role="progressbar" aria-label="Default striped example" aria-valuenow="10"
+                  aria-valuemin="0" aria-valuemax="100">
+                  <div [style.width.%]="progress()" class="progress-bar progress-bar-striped">
+                    {{ progress() }}%
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+  <!-- <div class="col">
+        <div class="d-flex gap-2">
+          <button (click)="loadTransction()" class="btn btn-primary btn-sm d-flex align-items-center gap-2">
+            <span>Search</span>
+          </button>
+          <button (click)="reset()" class="btn btn-warning btn-sm d-flex align-items-center gap-2">
+            <span>Reset</span>
+          </button>
+          
+          <div class="d-flex align-items-center" title="download EXCEL" (click)="download('EXCEL')">
+            <img class="pointer" src="../../../assets/icons/file-earmark-spreadsheet.svg" alt="">
+          </div>
+          <div class="d-flex align-items-center pointer" title="download CSV" (click)="download('CSV')">
+            <img src="assets/icons/filetype-csv.svg" alt="">
+          </div>
+          <div class="d-flex align-items-center pointer" title="download PDF" (click)="download('PDF')">
+            <img src="assets/icons/file-earmark-pdf.svg" alt="">
+          </div> -->
+  <!-- <button class="btn btn-info btn-sm d-flex align-items-center gap-2" title="download EXCEL" (click)="download('EXCEL')">
+            <span><i class="feather icon-file-minus"></i></span>
+          </button> -->
+  <!-- <button class="btn btn-info btn-sm d-flex align-items-center gap-2" title="download CSV" (click)="download('CSV')">
+            <span><i class="fa fa-tasks"></i></span>
+          </button> -->
+
+  <!-- <div *ngIf="progress() >= 0" class="d-flex align-items-center gap-2" style="margin-top: 10px;">
+            <div class="progress" role="progressbar" aria-label="Default striped example" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
+              <div [style.width.%]="progress()" class="progress-bar progress-bar-striped">
+                {{ progress() }}%
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form> -->
+
+
+  @if (showGrid()) {
+  <!-- <div class="">
+    <app-custom-grid [columnDefinitions]="columnDefinitions" [datasetObs]="tnxList" [enablePagination]="true"
+      [customPagination]="{pageSizes: [10, 20, 50, 100,500], pageSize: pageSize}" [checkboxSelector]="false"
+      [datasetIdPropertyName]="'idTransactionKey'" (onPaginationChanged)="paginationChanged($event)">
+    </app-custom-grid>
+  </div> -->
+  <div class="">
+    <app-soft-grid [columnDefinitions]="columnDefinitions" [datasetObs]="tnxList"
+      (onPaginationChanged)="paginationChanged($event)" [enablePagination]="true"
+      [customPagination]="{pageSizes: [1, 10, 20, 50, 100, 500], pageSize: pageSize}">
+    </app-soft-grid>
+
+  </div>
+  }
+  <app-soft-loading [loading]="loading()"></app-soft-loading>
+</div>

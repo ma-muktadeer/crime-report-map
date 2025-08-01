@@ -1,0 +1,60 @@
+<app-common-search-rep [type]="'TABULAR'" [isChart]="false" [isLoading]="loading"
+    (onSearchAction)="searchValue($event)"></app-common-search-rep>
+
+<div class="card mt-3">
+    @if(this.tableValueList() && this.tableValueList().length > 0) {
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h5 class="card-title mb-0">কর্মকান্ডের তালিকা</h5>
+
+        <button class="btn btn-sm btn-light text-primary d-flex align-items-center" (click)="exportToPdf()">
+            <i class="bi bi-file-earmark-pdf-fill me-2"></i>
+            <span class="d-none d-md-inline">Download PDF</span>
+        </button>
+    </div>
+    <div class="card-body mt-2" #tableValueCard id="tableValueCard">
+        @for (tableValue of tableValueList(); track tableValue) {
+        <div class="mb-4">
+            <h5 class="fw-bold text-decoration-underline text-center">কর্মকান্ডের প্রকার: {{ tableValue.title }}</h5>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-sm">
+                    <thead>
+                      <tr>
+                          <th scope="col" style="background-color: rgb(189, 189, 189); text-align: center;">ক্রমিক</th>
+                          @for (headerKey of objectKeys(tableValue.header); track headerKey) {
+                          <th scope="col" style="background-color: rgb(189, 189, 189); text-align: center;">{{
+                              tableValue.header[headerKey] }}
+                          </th>
+                          }
+                      </tr>
+                    </thead>
+                    <tbody>
+                        @if(tableValue.body && tableValue.body.length > 0; ) {
+                        @for (row of tableValue.body; let i = $index; track row) {
+                        <tr>
+                            <td>{{ _dateFormatter.toBengaliNumerals((i + 1).toString())}}</td>
+                            @for (key of objectKeys(tableValue.header); track key) {
+                              @if (key === 'casualties') {
+                              <td>{{ _dateFormatter.toBengaliNumeralsD0(row['injuredNumber']) }}/
+                                {{ _dateFormatter.toBengaliNumeralsD0(row['deathsNumber']) }}</td>
+                                } @else {
+                                <td>{{ row[key] }}</td>
+                                }
+                            }
+                        </tr>
+                        }
+                        }@else {
+                        <tr >
+                          <td [attr.colspan]="objectKeys(tableValue.header).length + 1" class="text-center py-2 text-gray-500">
+                              কোন তথ্য নেই
+                          </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        }
+    </div>
+    }
+</div>

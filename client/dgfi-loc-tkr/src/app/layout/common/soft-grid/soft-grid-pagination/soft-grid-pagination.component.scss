@@ -1,0 +1,11 @@
+.page-spin {
+    border: none;
+    height: 32px;
+    background-color: transparent;
+    cursor: default;
+    animation: mdi-sync mdi-spin infinite linear !important;
+}
+
+.page-spin:hover {
+    background-color: transparent;
+}

@@ -1,0 +1,8 @@
+<app-common-search-rep [isTimeInterval]="isTimeIntervalBool" [type]="reportType"
+  (onSearchAction)="searchValue($event)"></app-common-search-rep>
+<div class="chart-container">
+  <canvas baseChart class="mt-4" id="chart-interval"></canvas>
+</div>
+@if (isDownload()) {
+<button class="btn btn-primary download-btn" (click)="downloadChart()">ডাউনলোড পিডিএফ</button>
+}

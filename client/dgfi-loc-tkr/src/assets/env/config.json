@@ -1,0 +1,9 @@
+{
+    "app": {
+        "name": "Soft dgfi-loc-tkr",
+        "version": "1.0.0",
+        "desc": "Softcafe initial app",
+        "loginRequired": true,
+        "constantAppName": "dgfi-loc-tkr"
+    }
+}

@@ -1,0 +1,598 @@
+<!-- Updated the UI to make it more visually appealing and user-friendly by improving spacing, alignment, and adding modern design elements. -->
+<div class="p-3 rounded shadow-sm bg-light">
+
+    <form [formGroup]="plitcalFrom">
+
+        <h5 class="text-primary text-center">রাজনৈতিক তথ্য যোগ করুন</h5>
+
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <label for="incidentpaty" class="form-label fw-bold">দল/সংগঠন :</label>
+                <input type="text" class="form-control form-control-sm" id="incidentpaty" formControlName="partyName">
+                <!-- @if (submitted && f['partyName'].errors) {
+                <div class="invalid-feedback">
+                    @if (f['partyName'].errors['required']) {
+                    <div>দল/সংগঠন আবশ্যক।</div>
+                    }
+                </div>
+                } -->
+            </div>
+            <div class="col-md-4">
+                <label for="incident" class="form-label fw-bold">কর্মকান্ডের প্রকার :</label>
+                <div class="d-flex align-items-center">
+                    <select class="form-select form-select-sm" id="incident" formControlName="typeOfCrimeId">
+                        <option value="null" disabled>-- একটি নির্বাচন করুন --</option>
+                        @for (incident of politicalList(); track incident.configId) {
+                        <option [value]="incident.configId">{{ incident.value1 }}</option>
+                        }
+                    </select>
+                    <span class="font_type"
+                        (click)="openModal('POLITICAL_GROUP', 'POLITICAL_SUB_GROUP', 'কর্মকান্ডের প্রকার যোগ করুন', 'কর্মকান্ডের প্রকার')">＋</span>
+                    <app-config-modify-icon (onConfigModify)="onConfigModify($event)"
+                        [configurationList]="politicalList()" [title]="'এডিট কর্মকান্ডের প্রকার'">
+                    </app-config-modify-icon>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label for="incidentDate" class="form-label fw-bold">তারিখ:</label>
+                <input type="date" class="form-control form-control-sm" id="incidentDate" formControlName="occurseDate">
+
+            </div>
+        </div>
+
+        <!-- <div class="row mb-2">
+        
+      
+    </div> -->
+
+        <div class="row mb-2">
+
+            <div class="col-md-4">
+                <label class="form-label fw-bold" for="division">বিভাগ নাম:</label>
+                <select class="form-select form-select-sm" id="division" formControlName="divisionId"
+                    (change)="loadLocation($event, 'District', 'SELECT_DISTRICT')">
+                    <option value="null" disabled>-- বিভাগ নির্বাচন করুন --</option>
+                    @for (division of divisionList(); track division.idLocationKey) {
+                    <option [value]="division.idLocationKey">{{ division.locationNameBn }}</option>
+                    }
+                </select>
+            </div>
+
+
+            <div class="col-md-4">
+                <label for="district" class="form-label fw-bold">জেলা নাম:</label>
+                <select class="form-select form-select-sm" id="district" formControlName="districtId"
+                    (change)="loadLocation($event, 'Thana', 'SELECT_THANA')">
+                    <option value="null" disabled>-- জেলা নির্বাচন করুন --</option>
+                    @for (district of districtList(); track district.idLocationKey) {
+                    <option [value]="district.idLocationKey">{{ district.locationNameBn }}</option>
+                    }
+                </select>
+
+            </div>
+            <!-- <div class="col-md-4">
+            <label class="form-label fw-bold">উপজেলা নাম:</label>
+            <select class="form-select" id="upazila" formControlName="upazilaId">
+                <option value="null" disabled>-- উপজেলা নির্বাচন করুন --</option>
+                @for (upazila of upazilaList(); track upazila.idLocationKey) {
+                <option [value]="upazila.idLocationKey">{{ upazila.locationName }}</option>
+                }
+            </select>
+        </div> -->
+        <div class="col-md-4">
+            <label for="parliamentarySeatId" class="form-label fw-bold"> সংসদীয় আসন:</label>
+            <div class="d-flex align-items-center">
+                <select class="form-select form-select-sm" id="parliamentarySeatId"
+                    formControlName="parliamentarySeatId">
+                    <option value="null" disabled>-- সংসদীয় আসন নির্বাচন করুন --</option>
+                    @for (incident of parliamentarySeat(); track incident.configId) {
+                    <option [value]="incident.idLocationKey">{{ incident.locationNameBn }}</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        </div>
+
+        <!-- <div class="row mb-2"> -->
+            
+            <!-- <div class="col-md-4">
+                <label for="politicalPartyId" class="form-label fw-bold">রাজনৈতিক দল/সংগঠন:</label>
+                <div class="d-flex align-items-center">
+                    <select class="form-select form-select-sm" id="politicalPartyId" formControlName="politicalPartyId"
+                        (change)="onPartyChange($event)">
+                        <option value="null" disabled>-- একটি নির্বাচন করুন --</option>
+                        @for (incident of politicalPartyList(); track incident.configId) {
+                        <option [value]="incident.configId">{{ incident.value1 }}</option>
+                        }
+                        <option value="0">-- অন্যান্য --</option>
+                    </select>
+                    <span class="font_type"
+                        (click)="openModal('POLITICAL_PARTY_GROUP', 'POLITICAL_PARTY_SUB_GROUP', 'রাজনৈতিক পার্টি যোগ করুন', 'রাজনৈতিক পার্টি নাম')">＋</span>
+                    <app-config-modify-icon (onConfigModify)="onConfigModify($event)"
+                        [configurationList]="politicalPartyList()" [title]="'এডিট  রাজনৈতিক পার্টি নাম'">
+                    </app-config-modify-icon>
+                </div>
+            </div>
+            @if (showOtherInput()) {
+            <div class="col-md-4">
+                <label for="politicalPartyName" class="form-label fw-bold"></label>
+
+                <input type="text" placeholder="যোগ করুন রাজনৈতিক দল/সংগঠন" class="form-control form-control-sm"
+                    id="politicalPartyName" formControlName="politicalPartyName">
+            </div>
+            } -->
+
+
+        <!-- </div> -->
+        <div class="row mb-2">
+
+            <div class="col-md-4">
+                <label for="injuredNumber" class="form-label fw-bold">আহত সংখ্যা:</label>
+                <input type="text" inputmode="numeric" pattern="[০-৯0-9]*" appBanglaToEnglish class="form-control form-control-sm" id="injuredNumber"
+                    formControlName="injuredNumber">
+            </div>
+            <div class="col-md-4">
+                <label for="deathsNumber" class="form-label fw-bold">নিহত সংখ্যা:</label>
+                <input type="text" inputmode="numeric" pattern="[০-৯0-9]*" appBanglaToEnglish class="form-control form-control-sm" id="deathsNumber"
+                    formControlName="deathsNumber">
+            </div>
+            <div class="col-md-4">
+                <label for="incidentTime" class="form-label fw-bold">সময়:</label>
+                <input type="time" class="form-control form-control-sm" id="incidentTime" formControlName="time">
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <label for="locationName" class="form-label fw-bold">স্থান:</label>
+                <input type="text" class="form-control form-control-sm" id="locationName"
+                    formControlName="locationName">
+            </div>
+
+            <div class="col-md-6">
+                <label for="presenceNumber" class="form-label fw-bold">উপস্থিতির সংখ্যা:</label>
+                <input type="text" inputmode="numeric" pattern="[০-৯0-9]*" appBanglaToEnglish class="form-control form-control-sm" id="presenceNumber"
+                    formControlName="presenceNumber" >
+            </div>
+        </div>
+
+        <!-- Separated the ভিক্টিমের পরিচয় and অপরাধীর পরিচয় sections into distinct cards for better visual clarity and structure. -->
+        <div class="row mb-0">
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div
+                        class="card-header bg-primary text-white d-flex justify-content-between align-items-center py-2 px-3">
+                        <h6 class="mb-0">ভিক্টিম</h6>
+                        <button class="btn btn-outline-light btn-sm" (click)="addTableRow('victim')"
+                            [ngbTooltip]="'Add Row'" placement="left">
+                            <i class="fa fa-plus"></i> Add
+                        </button>
+                    </div>
+                    <div class="card-body p-1">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <td>নাম:</td>
+                                        <td>পরিচয়:</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for(user of victimList(); track user; let i = $index){
+                                    <tr>
+                                        <td class="styles">
+                                            <input type="text" class="form-control" [(ngModel)]="user.name"
+                                                [ngModelOptions]="{standalone: true}" />
+                                        </td>
+                                        <td class="styles">
+                                            <input type="text" class="form-control" [(ngModel)]="user.introduction"
+                                                [ngModelOptions]="{standalone: true}" />
+                                        </td>
+                                        <td class="styles">
+                                            <button class="btn btn-sm btn-outline-danger rounded-circle m-0"
+                                                [disabled]="i == 0" (click)="deleteTableRow('victim',i)">
+                                                <div class="align-middle">
+                                                    <i class="fas fa-trash-alt fa-align-center"></i>
+                                                </div>
+                                            </button>
+                                        </td>
+
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div
+                        class="card-header bg-danger text-white d-flex justify-content-between align-items-center py-2 px-3">
+                        <h6 class="mb-0">মূল হোতা:</h6>
+                        <button class="btn btn-outline-light btn-sm" (click)="addTableRow('mainCharacter')"
+                            [ngbTooltip]="'Add Row'" placement="left">
+                            <i class="fa fa-plus"></i> Add
+                        </button>
+                    </div>
+
+                    <div class="card-body p-1">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <td>নাম:</td>
+                                        <td>পরিচয়:</td>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @for(user of criminalList(); track user; let i = $index){
+                                    <tr>
+                                        <td class="styles">
+                                            <input type="text" class="form-control" [(ngModel)]="user.name"
+                                                [ngModelOptions]="{standalone: true}" />
+                                        </td>
+                                        <td class="styles">
+                                            <input type="text" class="form-control" [(ngModel)]="user.introduction"
+                                                [ngModelOptions]="{standalone: true}" />
+
+                                        </td>
+                                        <td class="styles">
+                                            <button class="btn btn-sm btn-outline-danger rounded-circle m-0"
+                                                [ngbTooltip]="'Delete Row'" [disabled]="i == 0"
+                                                (click)="deleteTableRow('mainCharacter',i)">
+                                                <div class="align-middle">
+                                                    <i class="fas fa-trash-alt fa-align-center"></i>
+                                                </div>
+                                            </button>
+                                        </td>
+
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- New row for Plaintiff and Defendants -->
+
+        <!-- Plantiff and Defendant End -->
+
+        <div class="row mb-0">
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div
+                        class="card-header bg-success text-white d-flex justify-content-between align-items-center py-2 px-3">
+                        <h6 class="text-base font-semibold mb-0">মদদ দাতা</h6>
+                        <button class="btn btn-outline-light btn-sm" (click)="addTableRow('sponsor')"
+                            [ngbTooltip]="'Add Row'" placement="left">
+                            <i class="fa fa-plus"></i> Add
+                        </button>
+                    </div>
+                    <div class="card-body p-1">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <td>নাম:</td>
+                                        <td>পরিচয়:</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for(user of sponsorList(); track user; let i = $index){
+                                    <tr>
+                                        <td class="styles">
+                                            <!-- <input type="text" class="form-control" formControlName="guestName"/> -->
+                                            <input type="text" class="form-control" [(ngModel)]="user.name"
+                                                [ngModelOptions]="{standalone: true}" />
+
+                                        </td>
+                                        <td class="styles">
+                                            <!-- <input type="text" class="form-control" formControlName="guestIntroduction"/> -->
+                                            <input type="text" class="form-control" [(ngModel)]="user.introduction"
+                                                [ngModelOptions]="{standalone: true}" />
+
+                                        </td>
+                                        <td class="styles">
+                                            <button class="btn btn-sm btn-outline-danger rounded-circle m-0"
+                                                [ngbTooltip]="'Delete Row'" [disabled]="i == 0"
+                                                (click)="deleteTableRow('sponsor',i)">
+                                                <div class="align-middle">
+                                                    <i class="fas fa-trash-alt fa-align-center"></i>
+                                                </div>
+                                            </button>
+                                        </td>
+
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div
+                        class="card-header bg-warning text-white d-flex justify-content-between align-items-center py-2 px-3">
+                        <h6 class="text-base font-semibold mb-0">বিশেষ অতিথি/বক্তা/উপস্থিতি</h6>
+                        <button class="btn btn-outline-light btn-sm" (click)="addTableRow('guest')"
+                            [ngbTooltip]="'Add Row'" placement="left">
+                            <i class="fa fa-plus"></i> Add
+                        </button>
+                    </div>
+                    <div class="card-body p-1">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <td>নাম:</td>
+                                        <td>পরিচয়:</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for(user of guestList(); track user; let i = $index){
+                                    <tr>
+                                        <td class="styles">
+                                            <!-- <input type="text" class="form-control" formControlName="guestName"/> -->
+                                            <input type="text" class="form-control" [(ngModel)]="user.name"
+                                                [ngModelOptions]="{standalone: true}" />
+
+                                        </td>
+                                        <td class="styles">
+                                            <!-- <input type="text" class="form-control" formControlName="guestIntroduction"/> -->
+                                            <input type="text" class="form-control" [(ngModel)]="user.introduction"
+                                                [ngModelOptions]="{standalone: true}" />
+
+                                        </td>
+                                        <td class="styles">
+                                            <button class="btn btn-sm btn-outline-danger rounded-circle m-0"
+                                                [ngbTooltip]="'Delete Row'" [disabled]="i == 0"
+                                                (click)="deleteTableRow('guest',i)">
+                                                <div class="align-middle">
+                                                    <i class="fas fa-trash-alt fa-align-center"></i>
+                                                </div>
+                                            </button>
+                                        </td>
+
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <label for="caseCheckbox" class="form-label fw-bold" style="cursor: pointer;">মামলা হয়েছে :</label>
+                <input type="checkbox" id="caseCheckbox" [checked]="showCase()" (change)="onCase($event)"
+                    style="margin-left: 10px;">
+            </div>
+        </div>
+        @if (showCase()) {
+        <div class="row mb-0">
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div
+                        class="card-header bg-success text-white d-flex justify-content-between align-items-center py-2 px-3">
+                        <h6 class="mb-0">বাদী</h6>
+                        <button class="btn btn-outline-light btn-sm" (click)="addTableRow('plaintiff')"
+                            [ngbTooltip]="'Add Row'" placement="left">
+                            <i class="fa fa-plus"></i> Add
+                        </button>
+                    </div>
+                    <div class="card-body p-1">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <td>নাম:</td>
+                                        <td>পরিচয়:</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for(user of plaintiffList(); track user; let i = $index){
+                                    <tr>
+                                        <td class="styles">
+                                            <input type="text" class="form-control" [(ngModel)]="user.name"
+                                                #plaintiffNameRef="ngModel"
+                                                [ngClass]="{ 'is-invalid': submitted && plaintiffNameRef.invalid }"
+                                                [ngModelOptions]="{standalone: true}" required />
+
+                                            @if (submitted && plaintiffNameRef.errors) {
+                                            <div class="invalid-feedback d-block">
+                                                @if (plaintiffNameRef.errors['required']) {
+                                                <div>নাম অবশ্যই দিতে হবে।</div>
+                                                }
+                                            </div>
+                                            }
+                                        </td>
+                                        <td class="styles">
+                                            <input type="text" class="form-control" [(ngModel)]="user.introduction"
+                                                [ngModelOptions]="{standalone: true}" />
+                                        </td>
+                                        <td class="styles">
+                                            <button class="btn btn-sm btn-outline-danger rounded-circle m-0"
+                                                [disabled]="i == 0" (click)="deleteTableRow('plaintiff',i)">
+                                                <div class="align-middle">
+                                                    <i class="fas fa-trash-alt fa-align-center"></i>
+                                                </div>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div
+                        class="card-header bg-warning text-dark d-flex justify-content-between align-items-center py-2 px-3">
+                        <h6 class="mb-0">বিবাদী</h6>
+                        <button class="btn btn-outline-dark btn-sm" (click)="addTableRow('defendant')"
+                            [ngbTooltip]="'Add Row'" placement="left">
+                            <i class="fa fa-plus"></i> Add
+                        </button>
+                    </div>
+
+                    <div class="card-body p-1">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <td>নাম:</td>
+                                        <td>পরিচয়:</td>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @for(user of defendantList(); track user; let i = $index){
+                                    <tr>
+                                        <td class="styles">
+                                            <input type="text" class="form-control" [(ngModel)]="user.name"
+                                                [ngModelOptions]="{standalone: true}" />
+                                        </td>
+                                        <td class="styles">
+                                            <input type="text" class="form-control" [(ngModel)]="user.introduction"
+                                                [ngModelOptions]="{standalone: true}" />
+                                        </td>
+                                        <td class="styles">
+                                            <button class="btn btn-sm btn-outline-danger rounded-circle m-0"
+                                                [ngbTooltip]="'Delete Row'" [disabled]="i == 0"
+                                                (click)="deleteTableRow('defendant',i)">
+                                                <div class="align-middle">
+                                                    <i class="fas fa-trash-alt fa-align-center"></i>
+                                                </div>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        }
+
+        <div class="mb-2">
+            <label for="briefDescriptions" class="form-label fw-bold">আইনগত / প্রশাসনিক ব্যবস্থা:</label>
+            <textarea class="form-control form-control-sm" id="legalAdministrativeAction" rows="3"
+                formControlName="legalAdministrativeAction"></textarea>
+        </div>
+
+        <div class="mb-2">
+            <label for="briefDescription" class="form-label fw-bold">সংক্ষিপ্ত বিবরণ:</label>
+            <textarea class="form-control form-control-sm" id="overView" rows="3" formControlName="overView"></textarea>
+        </div>
+
+
+        <!-- <div class="mb-4">
+        <label for="imageVideoUpload" class="form-label fw-bold">ছবি/ভিডিও আপলোড:</label>
+        <div class="file-upload-container border border-2 border-dashed rounded-3 p-4 text-center">
+            <div class="drop-zone d-flex flex-column justify-content-center align-items-center min-h-150px">
+                <input type="file" #fileInput multiple (change)="onFileSelected($event)" class="d-none">
+                <i class="bi bi-cloud-upload fs-1 text-primary mb-3"></i>
+                <p class="mb-3">Drag & drop files here or</p>
+                <button class="btn btn-outline-primary" (click)="fileInput.click()">Browse Files</button>
+            </div>
+        </div>
+    </div> -->
+
+        <div class="mb-3">
+            <label for="imageVideoUpload" class="form-label">ছবি/ভিডিও আপলোড:</label>
+            <div class="file-upload-container border border-2 border-dashed rounded-3 p-4 text-center transition-all"
+                (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)"
+                [class.border-primary]="isDragging()" [class.bg-light]="isDragging()">
+                <div class="drop-zone d-flex flex-column justify-content-center align-items-center min-h-150px">
+                    <input type="file" #fileInput multiple="false" [accept]="imageExtensions"
+                        (change)="onFileSelected($event)" class="d-none">
+
+                    <div class="drop-instructions">
+                        <i class="bi bi-cloud-upload fs-1 text-primary mb-3"></i>
+                        @if (!isDragging()) {
+                        <p class="mb-3">Drag & drop files here or</p>
+                        <button class="btn btn-outline-primary" (click)="fileInput.click()">Browse Files</button>
+                        }
+                        @else {
+                        <p class="mb-3">Drop Here</p>
+                        <button class="btn btn-outline-primary" hidden (click)="fileInput.click()">Browse Files</button>
+                        }
+                    </div>
+                </div>
+                @if (imageInfo()) {
+                <div class="file-list mt-3 w-100">
+                    <!-- @for ( file of files; let i = $index; track i) { -->
+                    <div class="file-item d-flex align-items-center p-2 border rounded mb-2 bg-white">
+                        <img [src]="imageInfo()?.imageSrc" [alt]="imageInfo()?.imageName" style="width:100px"
+                            class="file-icon me-3">
+                        <div class="file-info flex-grow-1 text-start">
+                            <span class="file-name d-block fw-medium">{{imageInfo()?.imageName}}</span>
+                        </div>
+                        <button class="btn btn-sm btn-link text-danger d-flex justify-content-center align-items-center"
+                            [title]="'Remove File'" (click)="removeFile()">
+                            <i class="bi bi-x-lg"></i>
+                        </button>
+                    </div>
+                    <!-- } -->
+                </div>
+                }
+            </div>
+
+        </div>
+
+        <div class="d-flex justify-content-end">
+            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">বাতিল</button>
+            <button type="submit" class="btn btn-primary" (click)="onSave()">সংরক্ষণ করুন</button>
+        </div>
+    </form>
+
+</div>
+
+<!-- Modal -->
+<div #staticBackdrop class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">{{h1}}:</h1>
+                <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        <label for="value1" class="form-label mb-0">{{inputField}}:</label>
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control form-control-sm" id="value1" [(ngModel)]="value1">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">বাতিল</button>
+                <button type="button" class="btn btn-primary" [disabled]="!value1 || isClick()" (click)="saveType()">
+                    যুক্ত করুন
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>

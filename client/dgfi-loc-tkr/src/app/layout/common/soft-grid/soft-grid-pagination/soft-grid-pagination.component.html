@@ -1,0 +1,76 @@
+@if (enablePagenation) {
+<div class="slick-pagination">
+    <div class="slick-pagination-nav">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item" [ngClass]="pageNumber === 1 ? 'disabled' : ''">
+                    <a class="page-link icon-seek-first mdi mdi-page-first" aria-label="First"
+                        (click)="changeToFirstPage($event)"> </a>
+                </li>
+                <li class="page-item" [ngClass]="pageNumber === 1 ? 'disabled' : ''">
+                    <a class="page-link icon-seek-prev mdi mdi-chevron-down mdi-rotate-240" aria-label="Previous"
+                        (click)="changeToPreviousPage($event)"> </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="slick-page-number">
+            <span [translate]="'PAGE'"></span>
+            <input type="text" value="{{pageNumber}}" size="1" (change)="changeToCurrentPage($event)">
+            <span [translate]="'OF'"></span><span> {{pageCount}}</span>
+        </div>
+
+        <nav aria-label="Page navigation">
+            <ul class="pagination" [ngClass]="processing() ? 'disabled' : ''">
+                <li class="page-item" [ngClass]="pageNumber === pageCount ? 'disabled' : ''"><a
+                        class="page-link icon-seek-next text-center mdi-chevron-down mdi-rotate-90" aria-label="Next"
+                        (click)="changeToNextPage($event)"> </a></li>
+                <li class="page-item" [ngClass]="pageNumber === pageCount ? 'disabled' : ''"><a
+                        class="page-link icon-seek-end mdi mdi-page-last" aria-label="Last"
+                        (click)="changeToLastPage($event)"> </a></li>
+            </ul>
+        </nav>
+
+        <nav>
+            <ul class="pagination">
+                <li class="">
+                    <span [hidden]="!processing()" class="page-spin">
+                        <i class="mdi mdi-sync mdi-spin-1s"></i>
+                    </span>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <span class="slick-pagination-settings">
+        <select id="items-per-page-label" aria-label="Items per Page" class="items-per-page"
+            (change)="changeToCurrentPageSize($event)">
+            @for (page of paginationOptions?.pageSizes; track page; let i = $index) {
+            <option [value]="page" [selected]="page == paginationOptions?.pageSize"
+                [disabled]="page * pageNumber > totalItems">{{page}}</option>
+            }
+        </select>
+        <span class="text-item-per-page">items per page</span>,
+        <span class="slick-pagination-count">
+            <span class="page-info-from-to">
+                <span class="item-from" aria-label="Page Item From" data-test="item-from">
+                    {{(pageNumber-1) * _pageSize + 1}}
+                </span>
+                -<span class="item-to" aria-label="Page Item To" data-test="item-to">
+                    {{(_pageSize * pageNumber)<=totalItems? (_pageSize * pageNumber) : totalItems}} </span>
+                        <span class="text-of">
+                            of
+                        </span>
+                </span>
+                <span class="page-info-total-items">
+                    <span class="total-items" aria-label="Total Items" data-test="total-items">
+                        {{totalItems}}
+                    </span>
+                    <span class="text-items">
+                        items
+                    </span>
+                </span>
+            </span>
+        </span>
+
+</div>
+}

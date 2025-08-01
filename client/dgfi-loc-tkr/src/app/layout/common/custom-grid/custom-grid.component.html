@@ -1,0 +1,7 @@
+@if (showGrid) {
+<angular-slickgrid #userGrid id="userGridId" [gridId]="datasetIdPropertyName" [columnDefinitions]="columnDefinitions"
+    [gridOptions]="gridOptions" [dataset]="dataset()" (onAngularGridCreated)="angularGridReady($event)"
+    (onPaginationChanged)="handleGridStateChanged($event)">
+</angular-slickgrid>
+
+}

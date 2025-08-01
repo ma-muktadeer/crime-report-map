@@ -1,0 +1,250 @@
+<div class="row col-md-12">
+    <div class=" col-md-4">
+        @if (permissioinStoreService.hasPermission(this.permissioinStoreService.appPermission.MAKE_ROLE)) {
+        <div class="col-md-12">
+            <button type="button" class="btn btn-success custom-btn" (click)="onAddRole()">
+                <i class="fa fa-user-plus fa-sm"></i>
+                রোল যোগ করুন
+            </button>
+        </div>
+        }
+       
+            <div class="col-md-12  mb-1">
+                <input class="form-control rounded-pill border-secondary" 
+                style="border-radius: 20px; border: solid 1px #ccc;height: 28px;"
+                placeholder="খুঁজুন.."
+                type="text"
+                    (keyup)="onRoleSearch($event)" />
+            </div>
+
+
+        <div class="ul-scrollable" style="max-height: 440px; overflow-y: auto;">
+            @for (group of filtedRoleList(); track group.roleId) {
+            <!-- *ngFor="let group of filtedRoleList" -->
+            <div class="col-md-12" (click)="onClickGroupItem($event, group)">
+                <div class="d-flex justify-content-between align-items-center hover-color py-1" 
+                [ngClass]="{'select-color':clickedItem?.displayName == group.displayName}"
+                style="font-size: 11px; border-bottom: solid 1px #ccc; height: 30px; line-height: 30px;">
+
+
+                <div class="text-truncate col-md-4 p-2">
+                    {{ group.displayName }}
+                    </div>
+                    <div class="d-flex gap-0 p-0">
+                        @if (permissioinStoreService.hasPermission(permissioinStoreService.appPermission.DELETE_ROLE)) {
+                       
+                            <button title="Delete" (click)="onDelete($event, group)" class="btn float-right"
+                                style="font-size: 12px;">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                       
+                        }
+                        @if (permissioinStoreService.hasPermission(permissioinStoreService.appPermission.MAKE_ROLE)) {
+                       
+                            <button title="Edit" (click)="onEdit($event, group)" class="btn float-right"
+                                style="font-size: 12px;">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                      
+                        }
+                        @if (group.status != 'APPROVED' &&
+                        permissioinStoreService.hasPermission(permissioinStoreService.appPermission.APPROVE_ROLE)) {
+                      
+                            <button title="Approve" (click)="onApprove($event, group)" class="btn float-right"
+                                style="font-size: 12px;">
+                                <i class="fa fa-check"></i>
+                            </button>
+                        }
+
+                    </div>
+                </div>
+
+            </div>
+            }
+        </div>
+    </div>
+
+    @if (clickedItem) {
+        <div class="col-md-8">
+            <div class="row" >
+                <div class="col-12" style="width: 100%; ">
+                    <h3 style="background:white;" class="text-center">{{clickedItem ?
+                        clickedItem.displayName : ''}}
+                    </h3>
+                </div>
+                <div class="col-12">
+                    <div class="row " cdkDropListGroup>
+                        <div class="col-6">
+                            <div class="col-12">
+                                <h6 class="mb-1"><u>Available Permissions</u></h6>
+                                <div style="margin-top: 2px;" class="col-md-12">
+                                    <div class="col-md-12 mb-2 ml-2">
+                                        <input class="col-md-12 px-3"
+                                            style="border-radius: 20px; border: 1px solid #b9c1c0;" placeholder="Search"
+                                            type="text" (keyup)="onSearchPermission($event, 'UN')" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div cdkDropList [cdkDropListData]="unassignPermissionList()" class="example-list"
+                                    (cdkDropListDropped)="drop($event)">
+                                    @for (role of unassignPermissionList(); track role) {
+                                    <div class="example-box hover-color" style="cursor: move !important;" cdkDrag>
+                                        <div class="mx-2">
+                                            {{role.displayName}}
+                                        </div>
+                                    </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="col-6 ">
+                            <h6 class="mb-3 row"><u>Assign Permissions</u></h6>
+                            <div class="row" style="margin-top: 40px;" class="col-md-12">
+    
+                            </div>
+    
+                            <div cdkDropList [cdkDropListData]="assignPermissionList()" class="example-list col-12" (cdkDropListDropped)="drop($event)">
+                                @for (role of assignPermissionList(); track role) {
+                                <div class="example-box hover-color" cdkDrag>
+                                    <div class="d-flex justify-content-between align-items-center w-100">
+
+                                            <div class="mx-2">
+                                                {{role.displayName}}
+                                            </div>
+                                
+
+
+                                        <div class="d-flex gap-2">
+                                            @if ((role.genericMapStatus == 'PEND_DEASSINED' || role.genericMapStatus == 'PEND_ASSIGN') && 
+                                                 permissioinStoreService.hasPermission(this.permissioinStoreService.appPermission.SAVE_ROLE)) {
+                                                <button title="Undo" (click)="onUndoAssignDeAssign(role)" class="btn btn-link p-0">
+                                                    <i class="fa fa-undo btnUndo"></i>
+                                                </button>
+                                            }
+                                            @if (role.genericMapStatus == 'PEND_ASSIGN' && 
+                                                 permissioinStoreService.hasPermission(this.permissioinStoreService.appPermission.APPROVE_ROLE)) {
+                                                <button title="Approve" (click)="onApprovePermission(role)" class="btn btn-link p-0">
+                                                    <i class="fa fa-check btnApprove"></i>
+                                                </button>
+                                            }
+                                            @if (role.genericMapStatus == 'PEND_DEASSINED' && 
+                                                 permissioinStoreService.hasPermission(this.permissioinStoreService.appPermission.APPROVE_ROLE)) {
+                                                <button title="Approve De-assign" (click)="onApproveDeassign(role)" class="btn btn-link p-0">
+                                                    <i class="fa fa-times btnDeAssign"></i>
+                                                </button>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                }
+                            </div>
+                            
+                     
+                            @if (permissioinStoreService.hasPermission(this.permissioinStoreService.appPermission.MAKE_ROLE)) {
+                                <div style="text-align: center;">
+                                    <button [(disabled)]="roleBtnDisabled" (click)="onSaveRoleManage()" class="btn btn-primary"
+                                        style="margin-top: 5px;">সংরক্ষণ
+                                        @if (spinnerSave) {
+                                        <span class="spinner-border spinner-border-sm"></span>
+                                        }
+                                    </button>
+                                </div>
+                                }
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+</div>
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+                <div class="card-body">
+                    <div class="row my-4">
+                        <div class="col">
+
+                            <form [formGroup]="roleForm">
+
+                                    <!-- <div class="col-md-12">
+                                        <div class="form-group d-flex flex-column flex-fill ">
+                                            <label for="distributorCode">
+                                                <span>Role Name<span style="color: red;">*</span></span>
+                                            </label>
+
+                                            <input type="text" formControlName="displayName" class="form-control"
+                                                name="displayName">
+                                            @if (roleForm.get('displayName')?.touched &&
+                                            roleForm.get('displayName')?.errors?.['required']) {
+                                            <div class="text text-danger mt-1">
+                                                Name Is Required
+                                            </div>
+                                            }
+                                        </div>
+                                        <div class="form-group d-flex flex-column flex-fill ">
+                                            <label for="distributorCode">
+                                                <span>Description</span>
+                                            </label>
+                                            <textarea class="form-control" formControlName="desc"
+                                                id="message-text"></textarea>
+                                        </div>
+
+                                    </div> -->
+                                    <div class="col-md-11">
+                                        <div class="d-flex align-items-center mb-3">
+                                          <label class="small mb-0 me-2 text-end" style="width: 30%">রোলের নাম:<span class="text-danger">*</span></label>
+                                          <input type="text"
+                                                 class="form-control form-control-sm"
+                                                 formControlName="displayName" 
+                                                 placeholder="রোলের নাম দিন"
+                                                 required
+                                                 [ngClass]="{'is-invalid': roleForm.get('displayName').errors?.['required'] && roleForm.get('displayName').touched}">
+                                        </div>
+                                        <div class="d-flex">
+                                          <div style="width: 30%" class="me-2"></div>
+                                          @if (roleForm.get('displayName').errors?.['required'] && roleForm.get('displayName').touched) {
+                                            <div class="invalid-feedback d-block">
+                                              রোলের নাম দেওয়া বাধ্যতামূলক।
+                                            </div>
+                                          }
+                                        </div>
+                                      
+                                        <div class="d-flex align-items-center">
+                                          <label class="small mb-0 me-2 text-end" style="width: 30%">বিবরণ:</label>
+                                          <textarea class="form-control form-control-sm"
+                                                    formControlName="desc"
+                                                    placeholder="বিবরণ"
+                                                    id="message-text">
+                                          </textarea>
+                                        </div>
+                                      </div>
+                     <div class="d-flex justify-content-center gap-2 mt-2">
+                         @if(permissioinStoreService.hasPermission(this.permissioinStoreService.appPermission.MAKE_ROLE)) {
+                                <button [disabled]="!roleForm.valid" 
+                                        (click)="onSave()" 
+                                        class="btn btn-primary btn-sm py-1">
+                                       {{buttonSaveOrUpdate}}
+                                        @if (spinnerAddSave) {
+                                        <span class="spinner-border spinner-border-sm"></span>
+                                        }
+                                    </button>
+                                    }                                   
+                                     <button (click)="closePopup()" class="btn btn-danger btn-sm py-1">
+                                        বাতিল
+                                    </button>
+                                </div>
+
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+<!-- </div> -->

@@ -1,0 +1,38 @@
+.action-column {
+    width: 5px;
+    background-color: red;
+}
+
+.manage-role-icon {
+    cursor: pointer;
+}
+:host ::ng-deep .slick-viewport {
+    overflow-x: auto !important;
+}
+.custom-btn {
+    padding: 5px 6px;
+    font-size: 14px;
+    line-height: 1;
+    margin-top: -20px;
+}
+
+
+
+// :host ::ng-deep .slick-header-columns {
+//     border-right: 1px solid #ccc;
+//     padding: 5px 10px;
+//     background-color: #025d7e44;
+
+//     .slick-header-column {
+//         /* Additional styles for header cell text */
+//         background-color: transparent !important;
+//         text-align: center !important; 
+
+//         span{
+//             font-size: 1.0rem;
+//         }
+//     }
+//     .ui-widget-header .slick-header-column {
+//         text-align: center;
+//     }
+// }

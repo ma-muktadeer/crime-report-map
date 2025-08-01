@@ -1,0 +1,211 @@
+<!-- <div style="width: 100%; height: auto;">
+  <div class="map-header">
+    <div class="map-header-buttons">
+      <button (click)="exportPDF()">Download</button>
+    </div>
+  </div>
+  <div class="border">
+    <div id="map" class="mb-3" style="height: 100vh;"></div>
+  </div>
+</div> -->
+<app-common-search-rep
+  [isChart]="false"
+  [type]="reportType"
+  (onSearchAction)="searchValue($event)"
+></app-common-search-rep>
+
+<div style="height: auto" class="row">
+  <div class="col-12">
+    @if(mapData()){
+    <div
+      class="map-header bg-light p-3 d-flex justify-content-end align-items-center border-bottom"
+    >
+      <div class="map-header-buttons">
+        <button
+          class="btn btn-primary btn-sm rounded-pill"
+          (click)="openModal()"
+        >
+          <i class="bi bi-download me-2"></i>| ডাউনলোড
+        </button>
+      </div>
+    </div>
+    }
+    <div
+      class="ratio ratio-16x9 border rounded shadow-sm overflow-hidden"
+      style="height: 100rem"
+    >
+      <div
+        id="map"
+        class="mb-3"
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%"
+      ></div>
+    </div>
+  </div>
+
+  @if(mapData()){
+  <div class="col-12 mt-4">
+    <div class="justify-content-center">
+      <div class="card shadow rounded">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">জেলাভিত্তিক পরিসংখ্যান</h5>
+        </div>
+
+        @if (reportType === 'CRIME' && mapData()) {
+        <div class="col-12 card-body p-0">
+          <div class="col-4 mt-2">
+            <div class="justify-content-center">
+              <div class="card shadow rounded">
+                <div class="col-12 card-body p-0">
+                  <table
+                    #pdfTable
+                    class="table table-bordered table-hover mb-0"
+                  >
+                    <thead>
+                      <tr class="table-primary">
+                        <th style="width: 10%">সিরিয়াল নম্বর</th>
+                        <th style="width: 60%">জেলা</th>
+                        <th style="width: 30%">সংখ্যা</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for(dt of mapData(); track dt; let i = $index) {
+                      <tr>
+                        <td>
+                          {{
+                            _dateFormaterService.toBengaliNumerals(
+                              (i + 1).toString()
+                            )
+                          }}
+                        </td>
+                        <td>{{ dt["distict"] }}</td>
+                        <td>
+                          {{
+                            _dateFormaterService.toBengaliNumerals(
+                              dt["countNumber"]
+                            )
+                          }}
+                        </td>
+                      </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        } @else if (reportType === 'POLITICAL' && mapDetailsData() &&
+        mapDetailsData().length > 0) {
+        <div class="card-body p-0">
+          <div class="row">
+            @for (detail of mapDetailsData(); track detail; let i = $index) {
+            <div class="col-md-4 mb-3">
+              <div class="card shadow rounded h-100">
+                <div class="card-body">
+                  <div>
+                    <!-- <div class="mb-2">
+                      <strong>সিরিয়াল:</strong>
+                      {{
+                        dateFormaterService.toBengaliNumerals(
+                          (i + 1).toString()
+                        )
+                      }}
+                    </div> -->
+                    <div class="mb-2">
+                      <strong
+                        >{{
+                          isSameDay(detail["occurseDate"])
+                            ? "আজকের কর্মসূচি"
+                            : "তারিখ"
+                        }}:</strong
+                      >
+                      {{
+                        _dateFormaterService.formatToBengaliDate(
+                          detail["occurseDate"]
+                        ) || "N/A"
+                      }}
+                    </div>
+                    <div class="mb-2">
+                      <strong>স্থান:</strong>
+                      {{ detail["locationName"] || "N/A" }}
+                    </div>
+                    <div class="mb-2">
+                      <strong>কর্মসূচি:</strong>
+                      {{ detail["overView"] || "N/A" }}
+                    </div>
+                    <!-- <div class="mb-2">
+                      <strong>জেলা:</strong>
+                      {{ detail["districtName"] || "N/A" }}
+                    </div> -->
+                    <div class="mb-2">
+                      <strong>অনুমানিক উপস্থিতি:</strong>
+                      {{
+                        _dateFormaterService.toBengaliNumerals(
+                          detail["presenceNumber"]
+                        ) || "N/A"
+                      }}
+                    </div>
+
+                    <div class="mb-2">
+                      <strong>সময়:</strong>
+                      {{
+                        _dateFormaterService.formateTime(detail["time"]) ||
+                          "N/A"
+                      }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+  }
+</div>
+
+<!-- Modal -->
+<div #staticBackdrop class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel"aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">
+          ডাউনলোড তথ্য যোগ করুন
+        </h1>
+        <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row align-items-center pb-2">
+          <div class="col-3">
+            <label for="value1" class="form-label mb-0">ম্যাপ টাইটেল:</label>
+          </div>
+          <div class="col">
+            <input type="text" class="form-control form-control-sm" id="value1" [(ngModel)]="title">
+          </div>
+        </div>
+        <div class="row align-items-center pb-2">
+          <div class="col-3">
+            <label for="com" class="form-label mb-0">অ্যানালাইসিস:</label>
+          </div>
+          <div class="col">
+            <textarea class="form-control form-control-sm" id="com" [(ngModel)]="comments"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">
+          বাতিল
+        </button>
+        <!-- <button type="button" class="btn btn-primary" [disabled]="!value1" (click)="onUnderstood()">যুক্ত
+                    করুন</button> -->
+        <button class="btn btn-primary btn-sm rounded-pill" (click)="exportPDF()">
+          <i class="bi bi-download me-2"></i>| ডাউনলোড
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

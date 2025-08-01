@@ -1,0 +1,78 @@
+@if(divisionList()){
+<div class="row mb-2">
+  <div class="col-md-3">
+    <label class="form-label fw-bold">বিভাগ নাম:</label>
+    <select
+      class="form-select form-select-sm"
+      id="division"
+      [(ngModel)]="divisionId"
+      (change)="loadLocation($event, 'District', 'SELECT_DISTRICT')"
+    >
+      <option value="null" disabled>-- বিভাগ নির্বাচন করুন --</option>
+      @for (division of divisionList(); track division.idLocationKey) {
+      <option [value]="division.idLocationKey">
+        {{ division.locationNameBn }}
+      </option>
+      }
+    </select>
+  </div>
+
+  <div class="col-md-3">
+    <label for="district" class="form-label fw-bold">জেলা নাম:</label>
+    <select
+      class="form-select form-select-sm"
+      id="district" [(ngModel)]="districtId"
+      [ngClass]="{ 'is-invalid': submitted() && !districtId() }"
+      (change)="loadLocation($event, 'Thana', 'SELECT_THANA')"
+    >
+      <option value="null" disabled>-- জেলা নির্বাচন করুন --</option>
+      @for (district of districtList(); track district.idLocationKey) {
+      <option [value]="district.idLocationKey">
+        {{ district.locationNameBn }}
+      </option>
+      }
+    </select>
+    @if (submitted() && !districtId()) {
+    <div class="invalid-feedback">
+      @if (!districtId()) {
+      <div>জেলা নির্বাচন করা আবশ্যক।</div>
+      }
+    </div>
+    }
+  </div>
+
+  <div class="col-md-3">
+    <label for="incidentDate" class="form-label fw-bold">আসনের নাম:</label>
+    <input
+      type="text"
+      class="form-control form-control-sm"
+      id="incidentDate"
+      [(ngModel)]="locationNameBn"
+      [ngClass]="{ 'is-invalid': submitted() && !locationNameBn() }"
+    />
+    @if (submitted() && !locationNameBn()) {
+    <div class="invalid-feedback">
+      @if (!locationNameBn()) {
+      <div>Political seat is requird</div>
+      }
+    </div>
+    }
+  </div>
+
+  <div class="col-auto d-flex align-items-end">
+    <label for="incidentDate" class="form-label fw-bold"></label>
+    <button type="submit" class="btn btn-primary btn-sm" (click)="onSave()">
+      সংরক্ষণ করুন
+    </button>
+  </div>
+</div>
+}
+
+<div class="">
+  <app-soft-grid [columnDefinitions]="columnDefinitions" [datasetObs]="dataset"
+      (onPaginationChanged)="paginationChanged($event)" [enablePagination]="true"
+      [customPagination]="{pageSizes: [1, 10, 20, 50, 100, 500], pageSize: pageSize}"></app-soft-grid>
+</div>
+
+
+<app-soft-loading [loading]="false"></app-soft-loading>

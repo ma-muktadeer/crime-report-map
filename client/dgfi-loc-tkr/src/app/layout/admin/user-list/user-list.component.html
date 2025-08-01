@@ -1,0 +1,45 @@
+<!--<div class="" id="id">
+    @if (permissioinStoreService.hasPermission(appPermission.USER_MAKER)) {
+    <button class="btn btn-primary mb-1" (click)="onNewUser()">Add New User</button>
+    }
+
+</div> -->
+
+<!-- <div class="" id="id">
+  @if (permissioinStoreService.hasPermission(appPermission.USER_MAKER)) {
+  <button class="btn btn-primary mb-1" (click)="openProfile()">Add New User</button>
+  }
+
+</div> -->
+<!-- <div class="page-header py-0 px-2 mt-1 ">
+  <button type="button" class="btn btn-primary" (click)="openProfile()" style="position: absolute; top: 23px; right: 10px; padding: 5px 10px;">
+      <i class="fa fa-plus mt-1" style="color: white; font-size: 16px;"></i>
+  </button>  -->
+<button type="button" class="btn btn-xs btn-success custom-btn" (click)="openProfile()">
+  <i class="fa fa-user-plus fa-sm"></i>
+নতুন ইউজার যোগ করুন
+</button>
+
+<!--<div class="col-3">
+    <button type="button" class="btn btn-block" data-toggle="tooltip"
+      (click)="openProfile()">
+      <i class="fa fa-plus" aria-hidden="true"></i> Add New User
+    </button>
+  </div> -->
+
+@if (showGrid) {
+<!-- <div class="">
+    <app-custom-grid [columnDefinitions]="columnDefinitions" [datasetObs]="dataset"
+        [enableContextMenu]="true" [contextMenu]="contextMenu" [enablePagination]="true"
+        [customPagination]="{pageSizes: [10, 20, 50, 100], pageSize: pageSize}"
+        [datasetIdPropertyName]="'userId'" (onPaginationChanged)="paginationChanged($event)"></app-custom-grid>
+</div> -->
+<div class="">
+  <app-soft-grid [columnDefinitions]="columnDefinitions" [datasetObs]="dataset"
+  [enableContextMenu]="true" [contextMenu]="contextMenu"
+   (onPaginationChanged)="paginationChanged($event)" [enablePagination]="true"
+   [customPagination]="{pageSizes: [1, 10, 20, 50, 100, 500], pageSize: pageSize}"></app-soft-grid>
+</div>
+}
+
+<app-soft-loading [loading]="loading()"></app-soft-loading>

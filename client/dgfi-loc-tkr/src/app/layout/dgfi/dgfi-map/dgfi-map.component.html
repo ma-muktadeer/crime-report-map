@@ -1,0 +1,19 @@
+
+<div style="width: 100%; height: auto;">
+    @if(isLoading()){
+        <!-- <div class="loading-overlay">
+            <app-soft-loading [loading]="isLoading()"></app-soft-loading>
+        </div> -->
+            
+         <div height="100%" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999999;">
+             <app-soft-loading [loading]="isLoading()"></app-soft-loading>
+         </div>
+    }
+    <div class="map-header">
+        <div class="map-header-buttons">
+            <button (click)="exportPDF()">ডাউনলোড</button>
+        </div>
+    </div>
+
+    <div id="map" style="height: 100vh;"></div>
+</div>

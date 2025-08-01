@@ -1,0 +1,32 @@
+.g-2,
+.gy-2 {
+  --bs-gutter-y: -1.5rem;
+}
+
+// .mb-1 {
+//     margin-bottom: 0.25rem !important;
+// }
+
+
+.custom-padding {
+  margin-left: auto;
+  padding-right: 15px;
+}
+
+// ::ng-deep app-custom-grid .grid-row {
+//   height: 25px;
+// }
+
+// ::ng-deep app-custom-grid .grid-cell {
+//   padding: 2px 5px;
+//   font-size: 12px;
+// }
+
+
+::ng-deep .slick-headerrow {
+  display: none !important;
+}
+
+::ng-deep .slick-viewport {
+  height: 100% !important;
+}

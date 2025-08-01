@@ -1,0 +1,165 @@
+<form [formGroup]="economicFrom" class="p-3 rounded shadow-sm bg-light">
+    <h5 class="text-primary mb-4">তথ্য যোগ করুন</h5>
+
+    <div class="row align-items-center mb-3">
+        <div class="col-auto row">
+            <label for="ty" class="form-label fw-bold mb-0">ধরন:</label>
+
+            <!-- <div class=""> -->
+            <select class="form-select form-select-sm mx-1" id="ty" [value]="typeOfForm()"
+                (change)="changeType($any($event.target)?.value)">
+                <option value="null">-- নির্বাচন করুন --</option>
+                @for (ty of types; track ty.id) {
+                <option [value]="ty.value">{{ ty.name }}</option>
+                }
+            </select>
+            <!-- </div> -->
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        @if(typeOfForm()){
+        <div class="col-md-4">
+            <label for="victimReligious" class="form-label fw-bold">তারিখ: </label>
+            <input type="date" class="form-control form-control-sm" id="victimReligious" formControlName="dttDate"
+                [ngClass]="{'is-invalid':(isClick() || economicFrom.get('dttDate').touched) && economicFrom.get('dttDate').invalid}">
+            @if((isClick() || economicFrom.get('dttDate').touched) && economicFrom.get('dttDate').invalid){
+            <div class="invalid-feedback">
+              দয়া করে একটি তারিখ নির্বাচন করুন
+            </div>
+            }
+        </div>
+        @if(typeOfForm()=='PRODUCTS'){
+
+        <div class="col-md-4">
+            <label for="product" class="form-label fw-bold">পণ্যের নাম:</label>
+            <div class="d-flex align-items-center">
+                <select class="form-select form-select-sm" id="product" formControlName="idProductName"
+                [ngClass]="{'is-invalid':(isClick() || economicFrom.get('idProductName').touched) && economicFrom.get('idProductName').invalid}">
+                    <option value="null" disabled>-- নাম --</option>
+                    @for (product of productsName(); track product.configId) {
+                    <option [value]="product.configId">{{ product.value1 }}</option>
+                    }
+                </select>
+                <span class="font_type ms-2"
+                    (click)="openModal('PRODUCTS_NAME_GROUP', 'PRODUCTS_NAME_SUB_GROUP', 'পণ্যের নাম যোগ করুন', 'পণ্যের নাম')">＋</span>
+            </div>
+            @if((isClick() || economicFrom.get('idProductName').touched) && economicFrom.get('idProductName').invalid ){
+            <div class="invalid-feedback d-block">
+                পণ্য নির্বাচন করুন।
+            </div>
+            }
+        </div>
+        <div class="col-md-4">
+            <label for="productUnit" class="form-label fw-bold"> পরিমাপের একক:</label>
+            <div class="d-flex align-items-center">
+                <select class="form-select form-select-sm" id="productUnit" formControlName="idUnitName"
+                [ngClass]="{'is-invalid':(isClick() || economicFrom.get('idUnitName').touched) && (economicFrom.get('idUnitName').invalid )}">
+                    <option value="null" disabled>-- একক --</option>
+                    @for (productUnit of productsUnitName(); track productUnit.configId) {
+                    <option [value]="productUnit.configId">{{ productUnit.value1 }}</option>
+                    }
+                </select>
+                <span class="font_type"
+                    (click)="openModal('PRODUCTS_UNIT_GROUP', 'PRODUCTS_UNIT_SUB_GROUP', 'পরিমাপের একক যোগ করুন', 'পরিমাপের একক')">＋</span>
+            </div>
+            @if((isClick() || economicFrom.get('idUnitName').touched) && (economicFrom.get('idUnitName').invalid )){
+            <div class="invalid-feedback d-block">
+                একটি পরিমাপের একক বেছে নিন।
+            </div>
+            }
+        </div>
+
+        <div class="col-md-4">
+            <label for="prdtQuntity" class="form-label fw-bold">পরিমান:</label>
+            <input type="text" inputmode="numeric" pattern="[০-৯0-9]*" appBanglaToEnglish class="form-control form-control-sm" id="prdtQuntity" formControlName="quantity"
+                [ngClass]="{'is-invalid':(isClick() || economicFrom.get('quantity').touched) && (economicFrom.get('quantity').invalid)}">
+            @if((isClick() || economicFrom.get('quantity').touched) && (economicFrom.get('quantity').invalid)){
+            <div class="invalid-feedback d-block">
+                দয়া করে পরিমান লিখুন।
+            </div>
+            }
+        </div>
+        }
+
+        <div class="col-md-4">
+            <label for="pUnit" class="form-label fw-bold">মুদ্রা:</label>
+            <div class="d-flex align-items-center">
+                <select class="form-select form-select-sm" id="pUnit" formControlName="unit"
+                [ngClass]="{'is-invalid':(isClick() || economicFrom.get('unit').touched) && (economicFrom.get('unit').invalid)}">
+                    <option value="null" disabled>-- একক --</option>
+                    @for (productUnit of _unit; track productUnit.value) {
+                    <option [value]="productUnit.value">{{ productUnit.name }}</option>
+                    }
+                </select>
+            </div>
+            @if((isClick() || economicFrom.get('unit').touched) && (economicFrom.get('unit').invalid)){
+            <div class="invalid-feedback d-block">
+                একটি মুদ্রা বেছে নিন।
+            </div>
+            }
+        </div>
+
+        <div class="col-md-4">
+            <label for="prdcPrize" class="form-label fw-bold"> {{ type == 'PRODUCTS' ? 'দাম' : 'পরিমান' }}</label>
+            <input type="text" inputmode="numeric" pattern="[০-৯0-9]*" appBanglaToEnglish class="form-control form-control-sm" id="prdcPrize" formControlName="price"
+            [ngClass]="{'is-invalid':(isClick() || economicFrom.get('price').touched) && (economicFrom.get('price').invalid)}">
+
+            @if((isClick() || economicFrom.get('price').touched) && (economicFrom.get('price').invalid)){
+            <div class="invalid-feedback d-block">
+                {{ type == 'PRODUCTS' ? 'দাম' : 'পরিমান' }} লিখুন।
+            </div>
+            }
+        </div>
+        }
+    </div>
+
+
+    <div class="d-flex justify-content-end">
+        <!-- <button type="button" class="btn btn-secondary me-2 btn-sm" data-bs-dismiss="modal">বাতিল</button> -->
+        <button type="btn" class="btn btn-info btn-sm" (click)="search()">খুজুন</button>
+        <button type="submit" class="btn btn-primary btn-sm" [disabled]="!typeOfForm()" [hidden]="isReadOnly()" (click)="onSave()">সংরক্ষণ
+            করুন</button>
+    </div>
+</form>
+
+
+<!-- Modal -->
+<div #staticBackdrop class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">{{h1}}:</h1>
+                <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        <label for="value1" class="form-label mb-0">{{inputField}}:</label>
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control form-control-sm" id="value1" [(ngModel)]="value1">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">বাতিল</button>
+                <button type="button" class="btn btn-primary" [disabled]="!value1 || isClick()" (click)="saveType()">
+                    যুক্ত করুন
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@if (typeOfForm() && !loading()) {
+<div class="">
+    <app-soft-grid [columnDefinitions]="columnDefinitions()" [datasetObs]="dataset"
+        (onPaginationChanged)="paginationChanged($event)" [enablePagination]="true"
+        [customPagination]="{pageSizes: [1, 10, 20, 50, 100, 500], pageSize: pageSize}"></app-soft-grid>
+</div>
+}
+
+<app-soft-loading [loading]="loading()"></app-soft-loading>

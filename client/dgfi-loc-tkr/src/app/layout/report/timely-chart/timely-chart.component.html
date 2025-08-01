@@ -1,0 +1,7 @@
+<app-common-search-rep [type]="reportType" (onSearchAction)="searchValue($event)"></app-common-search-rep>
+<div class="chart-container">
+  <canvas baseChart id="chart"></canvas>
+</div>
+@if (isDownload()) {
+  <button class="btn btn-primary download-btn" (click)="downloadChart()">ডাউনলোড পিডিএফ</button>
+}

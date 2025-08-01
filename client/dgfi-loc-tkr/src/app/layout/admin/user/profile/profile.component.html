@@ -1,0 +1,258 @@
+<div class="modal-content rounded-4">
+  @if(isPopup){
+  <div class="position-absolute top-0 end-0 p-2 z-1">
+    <button type="button" class="btn-close" aria-label="Close" (click)="closePopup('close popup')"></button>
+  </div>
+  }
+
+  <div class="modal-header border-bottom-0">
+    <h5 class="modal-title text-primary w-100 text-center">
+      {{isViewMode ? 'View Employee' : (isUpdate ? 'ব্যবহারকারী সংশোধন করুন' : 'ব্যবহারকারী যুক্ত করুন')}}
+    </h5>
+  </div>
+
+
+  <div class="modal-body p-3">
+    <form [formGroup]="profile" class="row g-2">
+      <div class="row">
+        <div class="mb-3">
+          <div class="row g-2">
+            <div class="col-md-6 d-flex align-items-center">
+              <label class="small mb-0 me-2 text-end" style="width: 30%">ইউজার আইডি:</label>
+              <input type="text" class="form-control form-control-sm" formControlName="employeeId"
+                [readOnly]="isViewMode" placeholder="আইডি দিন">
+            </div>
+            <div class="col-md-6">
+              <div class="d-flex align-items-center">
+                <label class="small mb-0 me-2 text-end" style="width: 30%">প্রথম নাম:<span
+                    class="text-danger">*</span></label>
+                <input type="text" class="form-control form-control-sm" formControlName="firstName"
+                  placeholder="নামের প্রথম অংশ" [readOnly]="isViewMode" required
+                  [ngClass]="{'is-invalid': profile.get('firstName').errors?.['required'] && profile.get('firstName').touched}">
+              </div>
+              <div class="d-flex">
+                <div style="width: 30%" class="me-2"></div>
+                @if (profile.get('firstName').errors?.['required'] && profile.get('firstName').touched) {
+                <div class="invalid-feedback d-block">
+                  প্রথম নাম আবশ্যক।
+                </div>
+                }
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <div class="row g-2">
+            <div class="col-md-6 d-flex align-items-center">
+              <label class="small mb-0 me-2 text-end" style="width: 30%">শেষ নাম:</label>
+              <input type="text" class="form-control form-control-sm" formControlName="lastName" [readOnly]="isViewMode"
+                placeholder="নামের শেষ অংশ">
+            </div>
+            <div class="col-md-6 d-flex align-items-center">
+              <label class="small mb-0 me-2 text-end" style="width: 30%">মোবাইল নম্বর:</label>
+              <input type="tel" class="form-control form-control-sm" [readOnly]="isViewMode"
+                formControlName="phoneNumber" placeholder="মোবাইল নম্বর">
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <div class="row g-2">
+            <div class="col-md-6">
+              <div class="d-flex align-items-center">
+                <label class="small mb-0 me-2 text-end" style="width: 30%">ইমেইল ঠিকানা:<span
+                    class="text-danger">*</span></label>
+                <input type="email" 
+                       class="form-control form-control-sm" 
+                       [readOnly]="isViewMode" formControlName="email"
+                  placeholder="ইমেইল" 
+                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                  [ngClass]="{'is-invalid': (profile.get('email').errors?.['required'] || profile.get('email').errors?.['pattern']) && profile.get('email').touched}">
+              </div>
+              <div class="d-flex">
+                <div style="width: 30%" class="me-2"></div>
+                @if (profile.get('email').touched) {
+                @if (profile.get('email').errors?.['required']) {
+                <div class="invalid-feedback d-block">
+                  ইমেইল আবশ্যক।
+                </div>
+                } @else if (profile.get('email').errors?.['pattern']) {
+                <div class="invalid-feedback d-block">
+                  দয়া করে একটি সঠিক ইমেইল প্রদান করুন।
+                </div>
+                }
+                }
+              </div>
+            </div>
+            <div class="col-md-6 d-flex align-items-center">
+              <label class="small mb-0 me-2 text-end" style="width: 30%">শাখা:</label>
+              @if (isViewMode) {
+              <input type="text" class="form-control form-control-sm" [value]="profile.get('branch').value" readonly>
+              }
+              @else {
+              <select class="form-select form-select-sm" formControlName="branch">
+                <option value="" disabled>শাখা নির্বাচন করুন</option>
+                <option value="Dhaka">ঢাকা</option>
+                <option value="Khulna">খুলনা</option>
+                <option value="Mirpur">মিরপুর</option>
+                <option value="Chattogram">চট্টগ্রাম</option>
+                <option value="Rajshahi">রাজশাহী</option>
+                <option value="Cox's Bazar">কক্সবাজার</option>
+                <option value="Bogra">বগুড়া</option>
+                <option value="Pabna">পাবনা</option>
+                <option value="Noakhali">নোয়াখালী</option>
+              </select>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <div class="row g-2">
+            <div class="col-md-6 d-flex align-items-center">
+              <label class="small mb-0 me-2 text-end" style="width: 30%">পদবী:</label>
+              <input type="text" [readOnly]="isViewMode" class="form-control form-control-sm"
+                formControlName="designation" placeholder="পদবী">
+            </div>
+            <div class="col-md-6 d-flex align-items-center">
+              <label class="small mb-0 me-2 text-end" style="width: 30%">জাতীয় পরিচয়পত্র নম্বর:</label>
+              <input type="text" class="form-control form-control-sm" formControlName="nid" [readOnly]="isViewMode"
+                placeholder="জাতীয় পরিচয়পত্র নম্বর">
+            </div>
+          </div>
+        </div>
+        <!-- @if(isViewMode || isUpdate){
+        }@else {
+          <div class="row g-2">
+        <div class="col-md-6 d-flex align-items-center">
+          <label class="small mb-0 me-2 text-end" style="width: 100px">Password:</label>
+          <input type="password" class="form-control form-control-sm" formControlName="password" placeholder="Password"
+            (keyup)="keyPress($event)">
+        </div>
+        <div class="col-12 col-md-6 row d-flex align-items-center">
+          <label class="form-label small mb-0 me-2 text-end col-6" for="conpass">Confirm Pass:</label>
+          <input type="password" class="form-control form-control-sm col-6"
+            [ngClass]="{'is-invalid':!isValidConfirmPass} " id="conpass" formControlName="confirmPassword"
+            placeholder="Confirm" (keyup)="keyPress($event, true)">
+          @if (!isValidConfirmPass) {
+          <div  class="invalid-feedback col-md-6">
+            Confirm password is invalid.
+          </div>
+          }
+        </div>
+         </div>
+        } -->
+
+        @if(!isViewMode && !isUpdate){
+        <div class="mb-3">
+          <div class="row g-2">
+            <div class="col-md-6">
+              <div class="d-flex align-items-center">
+                <label class="small mb-0 me-2 text-end" style="width: 30%">পাসওয়ার্ড:<span
+                    class="text-danger">*</span></label>
+                <div class="input-group">
+                  <input [type]="showPassword ? 'text' : 'password'" class="form-control form-control-sm"
+                    [ngClass]="{'is-invalid': profile.get('password').errors?.['required'] && profile.get('password').touched}"
+                    formControlName="password" placeholder="পাসওয়ার্ড" [readOnly]="isViewMode" required
+                    (keyup)="keyPress($event)">
+                  <span *ngIf="profile.get('password').value" class="input-group-text" style="cursor: pointer"
+                    (click)="showPassword = !showPassword">
+                    <i [class]="showPassword ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+                  </span>
+                </div>
+              </div>
+              <div class="d-flex">
+                <div style="width: 30%" class="me-2"></div>
+                @if (profile.get('password').touched && profile.get('password').errors?.['required']) {
+                <div class="invalid-feedback d-block">
+                 পাসওয়ার্ড আবশ্যক।
+                </div>
+                }
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="d-flex align-items-center">
+                <label class="small mb-0 me-2 text-end" style="width: 30%">পাসওয়ার্ড নিশ্চিত করুন:<span
+                    class="text-danger">*</span></label>
+                <div class="input-group">
+                  <input [type]="showConfirmPassword ? 'text' : 'password'" class="form-control form-control-sm"
+                    [ngClass]="{'is-invalid': (profile.get('confirmPassword').errors?.['required'] || !isValidConfirmPass) && profile.get('confirmPassword').touched}"
+                    id="conpass" [readOnly]="isViewMode" formControlName="confirmPassword"
+                    placeholder="পাসওয়ার্ড নিশ্চিত করুন" (keyup)="keyPress($event, true)">
+                  <span *ngIf="profile.get('confirmPassword').value" class="input-group-text" style="cursor: pointer"
+                    (click)="showConfirmPassword = !showConfirmPassword">
+                    <i [class]="showConfirmPassword ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+                  </span>
+                </div>
+              </div>
+              <div class="d-flex">
+                <div style="width: 30%" class="me-2"></div>
+                @if (!isValidConfirmPass && profile.get('confirmPassword').touched) {
+                <div class="invalid-feedback d-block">
+                  @if (!profile.get('password').value) {
+                  পাসওয়ার্ড নিশ্চিতকরণ আবশ্যক।
+                  } @else {
+                  পাসওয়ার্ড নিশ্চিতকরণটি সঠিক নয়।
+                  }
+                </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+        }
+
+
+
+        <div class="mb-3">
+          <div class="row g-2">
+            <div class="col-md-6 d-flex align-items-center">
+              <label class="small mb-0 me-2 text-end" style="width: 30%">জন্মতারিখ:</label>
+              <input type="date" class="form-control form-control-sm" [readOnly]="isViewMode" placeholder="মাস//দিন//বছর" formControlName="dob">
+            </div>
+            <div class="col-md-6">
+              <div class="d-flex align-items-center">
+                <label class="small mb-0 me-2 text-end" style="width: 30%">লগইন নাম:<span
+                    class="text-danger">*</span></label>
+                <input type="text" class="form-control form-control-sm" [readOnly]="isUpdate || isViewMode"
+                  formControlName="loginName" placeholder="লগইন নাম" required
+                  [ngClass]="{'is-invalid': profile.get('loginName').errors?.['required'] && profile.get('loginName').touched}">
+              </div>
+              <div class="d-flex">
+                <div style="width: 30%" class="me-2"></div>
+                @if (profile.get('loginName').errors?.['required'] && profile.get('loginName').touched) {
+                <div class="invalid-feedback d-block">
+                 লগইন নাম আবশ্যক।
+                </div>
+                }
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <div class="row g-2">
+            <div class="col-6 d-flex align-items-center">
+              <label class="small mb-0 me-2 text-end" style="width: 30%">মন্তব্য:</label>
+              <textarea class="form-control form-control-sm" formControlName="remarks" rows="1" [readOnly]="isViewMode"
+                placeholder="অতিরিক্ত মন্তব্য"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      @if(!isViewMode){
+      <div class="text-center mt-3">
+        <button type="submit" class="btn btn-primary btn-sm px-4" (click)="onSubmit()">{{isUpdate ? 'আপডেট করুন' :
+          'সংরক্ষণ করুন'}}</button>
+        @if(!isUpdate){
+        <button type="button" class="btn btn-light btn-sm mx-2" (click)="resetForm()">রিসেট করুন</button>
+        }
+        <!-- [disabled]="!isValidConfirmPass" -->
+      </div>
+      }
+    </form>
+  </div>
+</div>

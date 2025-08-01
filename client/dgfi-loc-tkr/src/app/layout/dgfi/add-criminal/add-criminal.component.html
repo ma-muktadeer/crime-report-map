@@ -1,0 +1,306 @@
+<form [formGroup]="crimeChartFrom" class="p-3 rounded shadow-sm bg-light needs-validation" novalidate>
+  <h5 class="text-primary mb-4">ঘটনা তথ্য যোগ করুন</h5>
+
+  <div class="row mb-2">
+    <div class="col-md-4">
+      <label for="incident" class="form-label fw-bold">বিষয়:</label>
+      <div class="d-flex align-items-center">
+        <select class="form-select form-select-sm mx-1" id="incident" formControlName="typeOfCrimeId">
+          <!-- [ngClass]="{ 'is-invalid': submitted && f['typeOfCrimeId'].errors }" -->
+          <option value="null" disabled>-- একটি নির্বাচন করুন --</option>
+          @for (incident of crimeList(); track incident.configId) {
+          <option [value]="incident.configId">{{ incident.value1 }}</option>
+          }
+        </select>
+        <span class="font_type" ngbTooltip="Add" (click)="openModal()">
+          ＋
+        </span>
+        <app-config-modify-icon
+          (onConfigModify)="onConfigModify($event)" [configurationList]="crimeList()"
+          [title]="'এডিট বিষয়'">
+        </app-config-modify-icon>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-2">
+    <div class="col-md-6">
+      <label for="incidentDate" class="form-label fw-bold">তারিখ:</label>
+      <input type="date" class="form-control form-control-sm" id="incidentDate" formControlName="occurseDate">
+    </div>
+    <div class="col-md-6">
+      <label for="incidentTime" class="form-label fw-bold">সময়:</label>
+      <input type="time" class="form-control form-control-sm" id="incidentTime" formControlName="time">
+    </div>
+  </div>
+
+  <div class="row mb-2">
+    <div class="col-md-4">
+
+      <label class="form-label fw-bold">বিভাগ নাম:</label>
+      <select class="form-select form-select-sm" id="division" formControlName="divisionId"
+        (change)="loadLocation($event, 'District', 'SELECT_DISTRICT')">
+        <!-- [ngClass]="{ 'is-invalid': submitted && f['divisionId'].errors }" -->
+        <option value="null" disabled>-- বিভাগ নির্বাচন করুন --</option>
+        @for (division of divisionList(); track division.idLocationKey) {
+        <option [value]="division.idLocationKey">{{ division.locationNameBn }}</option>
+        }
+      </select>
+      <!-- @if (submitted && f['divisionId'].errors) {
+            <div class="invalid-feedback">
+                @if (f['divisionId'].errors['required']) {
+                <div>বিভাগ নির্বাচন করা আবশ্যক।</div>
+                }
+            </div>
+            } -->
+
+
+    </div>
+
+    <div class="col-md-4">
+      <label for="district" class="form-label fw-bold">জেলা নাম:</label>
+      <select class="form-select form-select-sm" id="district" formControlName="districtId"
+        (change)="loadLocation($event, 'Thana', 'SELECT_THANA')">
+        <!-- [ngClass]="{ 'is-invalid': submitted && f['districtId'].errors }" -->
+        <option value="null" disabled>-- জেলা নির্বাচন করুন --</option>
+        @for (district of districtList(); track district.idLocationKey) {
+        <option [value]="district.idLocationKey">{{ district.locationNameBn }}</option>
+        }
+      </select>
+      <!-- @if (submitted && f['districtId'].errors) {
+            <div class="invalid-feedback">
+                @if (f['districtId'].errors['required']) {
+                <div>জেলা নির্বাচন করা আবশ্যক।</div>
+                }
+            </div>
+            } -->
+    </div>
+  </div>
+
+  <div class="row mb-2">
+    <div class="col-md-6">
+      <label for="injuredNumber" class="form-label fw-bold">আহত সংখ্যা:</label>
+      <input type="text" inputmode="numeric" pattern="[০-৯0-9]*" class="form-control form-control-sm"
+      id="injuredNumber" formControlName="injuredNumber" appBanglaToEnglish>
+    </div>
+    <div class="col-md-6">
+      <label for="deathsNumber" class="form-label fw-bold">নিহত সংখ্যা:</label>
+      <input type="text" inputmode="numeric" pattern="[০-৯0-9]*" class="form-control form-control-sm" id="deathsNumber" formControlName="deathsNumber"
+      appBanglaToEnglish>
+    </div>
+  </div>
+
+  <!-- Separated the ভিক্টিমের পরিচয় and অপরাধীর পরিচয় sections into distinct cards for better visual clarity and structure. -->
+  <div class="row mb-0">
+    <div class="col-xl-6">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center py-2 px-3">
+          <h6 class="mb-0">ভিক্টিমের পরিচয়</h6>
+          <button class="btn btn-outline-light btn-sm" (click)="addTableRow('victim')" ngbTooltip="Add Row"
+            placement="left">
+            <i class="fas fa-plus"></i> Add
+          </button>
+        </div>
+        <div class="card-body p-1">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead class="table-light">
+                <tr>
+                  <td>নাম</td>
+                  <td>পরিচয়</td>
+                  <td>রাজনৈতিক সংশ্লিষ্টতা</td>
+                  <td width="30px"></td>
+                </tr>
+              </thead>
+              <tbody>
+                @for(user of victimList(); track user; let i = $index){
+                <tr>
+                  <td>
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="user.name"
+                      [ngModelOptions]="{standalone: true}" required />
+
+                    <!-- @if (submitted && nameRef.errors) {
+                                                <div class="invalid-feedback d-block">
+                                                  @if (nameRef.errors['required']) {
+                                                    <div>নাম অবশ্যই দিতে হবে।</div>
+                                                  }
+                                                </div>
+                                              } -->
+                  </td>
+                  <td>
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="user.introduction"
+                      [ngModelOptions]="{standalone: true}" />
+                  </td>
+                  <td>
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="user.politicalPartyName"
+                      [ngModelOptions]="{standalone: true}" />
+                  </td>
+                  <td class="text-center align-middle">
+                    <button class="btn btn-sm btn-outline-danger rounded-circle m-0" [ngbTooltip]="'Delete Row'"
+                      [disabled]="i == 0" (click)="deleteTableRow('victim',i)">
+                      <div class="align-middle">
+                        <i class="fas fa-trash-alt fa-align-center"></i>
+                      </div>
+                    </button>
+                  </td>
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-6">
+      <div class="card shadow-sm">
+        <div class="card-header bg-danger text-white d-flex justify-content-between align-items-center py-2 px-3">
+          <h6 class="mb-0">অপরাধীর পরিচয়</h6>
+          <button class="btn btn-outline-light btn-sm" (click)="addTableRow('mainCharacter')" ngbTooltip="Add Row"
+            placement="left">
+            <i class="fas fa-plus"></i> Add
+          </button>
+        </div>
+        <div class="card-body p-1">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead class="table-light">
+                <tr>
+                  <td>নাম</td>
+                  <td>পরিচয়</td>
+                  <td>রাজনৈতিক সংশ্লিষ্টতা</td>
+                  <td width="30px"></td>
+                </tr>
+              </thead>
+              <tbody>
+                @for(user of criminalList(); track user; let i = $index){
+                <tr>
+                  <td>
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="user.name"
+                      [ngModelOptions]="{standalone: true}" required />
+                    <!-- @if (submitted && nameRef.errors) {
+                                                <div class="invalid-feedback d-block">
+                                                  @if (nameRef.errors['required']) {
+                                                    <div>নাম অবশ্যই দিতে হবে।</div>
+                                                  }
+                                                </div>
+                                              }   -->
+                  </td>
+                  <td>
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="user.introduction"
+                      [ngModelOptions]="{standalone: true}" />
+                  </td>
+                  <td>
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="user.politicalPartyName"
+                      [ngModelOptions]="{standalone: true}" />
+                  </td>
+                  <td class="text-center align-middle">
+                    <button class="btn btn-sm btn-outline-danger rounded-circle m-0" [ngbTooltip]="'Delete Row'"
+                      [disabled]="i == 0" (click)="deleteTableRow('mainCharacter',i)">
+                      <div class="align-middle">
+                        <i class="fas fa-trash-alt fa-align-center"></i>
+                      </div>
+                    </button>
+                  </td>
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-2">
+    <div class="col-md-6">
+      <label for="victimReligious" class="form-label fw-bold">ধর্মীয়/সামাজিক/আন্দোলনকৃত প্রতিষ্ঠানের নাম:</label>
+      <input type="text" class="form-control form-control-sm" id="victimReligious" formControlName="victimReligious">
+    </div>
+
+    <div class="col-md-6">
+      <label for="institutionName" class="form-label fw-bold">প্রতিষ্ঠানের নাম:</label>
+      <input type="text" class="form-control form-control-sm" id="institutionName" formControlName="organizationName">
+    </div>
+  </div>
+  <div class="mb-2">
+    <label for="briefDescription" class="form-label fw-bold">সংক্ষিপ্ত বিবরণ:</label>
+    <textarea class="form-control form-control-sm" id="overView" rows="3" formControlName="overView"></textarea>
+  </div>
+
+  <div class="mb-3">
+    <label for="imageVideoUpload" class="form-label">ছবি/ভিডিও আপলোড:</label>
+    <div class="file-upload-container border border-2 border-dashed rounded-3 p-4 text-center transition-all"
+      (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)"
+      [class.border-primary]="isDragging()" [class.bg-light]="isDragging()">
+      <div class="drop-zone d-flex flex-column justify-content-center align-items-center min-h-150px">
+        <input type="file" #fileInput multiple="false" [accept]="imageExtensions" (change)="onFileSelected($event)"
+          class="d-none">
+
+        <div class="drop-instructions">
+          <i class="bi bi-cloud-upload fs-1 text-primary mb-3"></i>
+          @if (!isDragging()) {
+          <p class="mb-3">ফাইল এখানে টেনে ছেড়ে দিন অথবা</p>
+          <button class="btn btn-outline-primary" (click)="fileInput.click()">ব্রাউজ করে নির্বাচন
+            করুন</button>
+          }
+          @else {
+          <p class="mb-3">Drop Here</p>
+          <button class="btn btn-outline-primary" hidden (click)="fileInput.click()">Browse Files</button>
+          }
+        </div>
+      </div>
+      @if (imageInfo()) {
+      <div class="file-list mt-3 w-100">
+        <!-- @for ( file of files; let i = $index; track i) { -->
+        <div class="file-item d-flex align-items-center p-2 border rounded mb-2 bg-white">
+          <img [src]="imageInfo()?.imageSrc" [alt]="imageInfo()?.imageName" style="width:100px" class="file-icon me-3">
+          <div class="file-info flex-grow-1 text-start">
+            <span class="file-name d-block fw-medium">{{imageInfo()?.imageName}}</span>
+          </div>
+          <button class="btn btn-sm btn-link text-danger d-flex justify-content-center align-items-center"
+            [title]="'Remove File'" (click)="removeFile()">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+        <!-- } -->
+      </div>
+      }
+    </div>
+
+  </div>
+
+
+  <div class="d-flex justify-content-end">
+    <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">বাতিল</button>
+    <button type="submit" class="btn btn-primary" (click)="onSave()">সংরক্ষণ করুন</button>
+  </div>
+</form>
+
+<!-- Modal -->
+<div #staticBackdrop class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="staticBackdropLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">ঘটনা ধরণ যোগ করুন</h1>
+        <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <label for="value1" class="form-label mb-0">অপরাধের নাম:</label>
+          </div>
+          <div class="col">
+            <input type="text" class="form-control form-control-sm" id="value1" [(ngModel)]="value1">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">বাতিল</button>
+        <button type="button" class="btn btn-primary" [disabled]="!value1" (click)="onUnderstood()">যুক্ত
+          করুন</button>
+      </div>
+
+    </div>
+  </div>
+</div>

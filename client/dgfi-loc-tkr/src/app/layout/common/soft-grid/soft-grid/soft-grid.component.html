@@ -1,0 +1,12 @@
+<!-- @if (this.datasetObs()) { -->
+<div class="container-fluid" style="margin-top: 10px">
+  <div class="row">
+    <app-soft-grid-common #commonGrid (onFilterChanged)="filterChanged($event)" [contextMenu]="contextMenu"
+      (onPaginationChanged)="paginationChanged($event)" (onSortChanged)="sortChanged($event)" [gridDataValue]="gridDataValue">
+    </app-soft-grid-common>
+    <div class="col-sm-12">
+      <app-soft-grid-pagination #commonGridPag></app-soft-grid-pagination>
+    </div>
+  </div>
+</div>
+<!-- } -->
