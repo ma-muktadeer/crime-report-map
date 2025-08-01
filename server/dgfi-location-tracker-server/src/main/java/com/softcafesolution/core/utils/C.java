@@ -1,0 +1,72 @@
+package com.softcafesolution.core.utils;
+
+/**
+ * Combined column
+ * @author Kamruzzaman
+ *
+ */
+public interface C {
+
+	String COD_CC_BRN = "COD_CC_BRN";
+	String COD_ACCT_NO = "COD_ACCT_NO";
+	String COD_ACCT_TITLE = "COD_ACCT_TITLE";
+	String NAM_BRANCH = "NAM_BRANCH";
+	String TXT_CC_ADD1 = "TXT_CC_ADD1";
+	String AMT_OD_LIMIT = "AMT_OD_LIMIT";
+	String FLG_JOINT_ACCT = "FLG_JOINT_ACCT";
+	String TXT_CC_ADD2 = "TXT_CC_ADD2";
+	String TXT_CC_ADD3 = "TXT_CC_ADD3";
+	String NAM_CC_CITY = "NAM_CC_CITY";
+	String NAM_CURRENCY = "NAM_CURRENCY";
+	String NAM_PRODUCT = "NAM_PRODUCT";
+	String MAX_DATE = "MAX_DATE";
+	String FROM_DATE = "FROM_DATE";
+	String TXT_CUSTADR_ADD1 = "TXT_CUSTADR_ADD1";
+	String TXT_CUSTADR_ADD2 = "TXT_CUSTADR_ADD2";
+	String TXT_CUSTADR_ADD3 = "TXT_CUSTADR_ADD3";
+	String TXT_CUSTADR_ZIP = "TXT_CUSTADR_ZIP";
+	String NAM_CUSTADR_CITY = "NAM_CUSTADR_CITY";
+	String NAM_CUSTADR_CNTRY = "NAM_CUSTADR_CNTRY";
+	String REF_CUST_PHONE = "REF_CUST_PHONE";
+	String DAT_VALUE = "DAT_VALUE";
+	String REF_NO = "REF_NO";
+	String DAT_TXN = "DAT_TXN";
+	String BRN = "BRN";
+	String TXT_TXN_DESC = "TXT_TXN_DESC";
+	String REF_CHQ_NO = "REF_CHQ_NO";
+	String DR_AMT = "DR_AMT";
+	String CR_AMT = "CR_AMT";
+	String DRCR_BAL = "DRCR_BAL";
+	String BALANCE = "BALANCE";
+	String TXT_CUST_PREFIX = "TXT_CUST_PREFIX";
+	String NAM_CUST_FULL = "NAM_CUST_FULL";
+	String REF_SYS_TR_AUD_NO = "REF_SYS_TR_AUD_NO";
+	String REF_SUB_SEQ_NO = "REF_SUB_SEQ_NO";
+	String TXN_ORDER_TYPE = "TXN_ORDER_TYPE";
+	String JOININFO = "JOININFO";
+	String TO_DATE = "TO_DATE";
+	String AC_NO = "AC_NO";
+	String OPEN_BAL = "OPEN_BAL";
+	String DR_TXN = "DR_TXN";
+	String CR_TXN = "CR_TXN";
+	String CLOSE_BAL = "CLOSE_BAL";
+	String DR_COUNT = "DR_COUNT";
+	String CR_COUNT = "CR_COUNT";
+	String DATE_FROM = "DATE_FROM";
+	String DATE_TO = "DATE_TO";
+	String COD_DRCR = "COD_DRCR";
+	String TXT_CLOSE_BAL = "TXT_CLOSE_BAL";
+	String FLG_CLG_CHQ = "FLG_CLG_CHQ";
+	
+	String TRANSACTIO_ID = "TRANSACTIO_ID";
+	
+	String TRN_ID_BKASH = "TRN_ID_BKASH";
+	
+	String TRN_REF_NO = "TRN_REF_NO";
+	String ACC_TYPE = "ACC_TYPE";
+    String OPENING_BAL = "OPENING_BAL";
+	String DEBIT_COUNT = "DEBIT_COUNT";
+	String CREDIT_COUNT = "CREDIT_COUNT";
+	String DEBIT_AMOUNT = "DEBIT_AMOUNT";
+	String  CREDIT_AMOUNT = "CREDIT_AMOUNT";
+}

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<configuration debug="true" scan="true">
+
+	<property resource="logback.properties" />
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%date : [%-5level] %thread [%-35logger{10}:%line] %msg%n</pattern>
+		</encoder>
+	</appender>
+
+
+	<appender name="DAILY_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.file.dir}/${log.file.name}</file>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.file.dir}/${log.file.name}.%d.gz</fileNamePattern>
+			
+		</rollingPolicy>
+
+		<encoder>
+			<pattern>%date : [%-5level] %thread [%logger{10}:%line] %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="RECON_FILE_READ" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.file.dir}/${log.file.name.recon}</file>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.file.dir}/${log.file.name.recon}.%d.gz</fileNamePattern>
+		</rollingPolicy>
+		
+
+		<encoder>
+			<pattern>%date : [%-5level] %thread [%logger{10}:%line] %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="INSTALMENT_PROCESSOR_FILE_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.file.dir}/${log.file.name.inst.process}</file>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.file.dir}/${log.file.name.inst.process}.%d.gz</fileNamePattern>
+		</rollingPolicy>
+		
+
+		<encoder>
+			<pattern>%date : [%-5level] %thread [%logger{10}:%line] %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="com.softcafe" level="DEBUG" />
+
+	<logger name="com.softcafe.saving.service.report.WalletReconDataService" level="INFO"> 
+        <appender-ref ref="RECON_FILE_READ" /> 
+    </logger> 
+    
+    <logger name="com.softcafe.saving.service.InstalmentProcessorV2" level="INFO"> 
+        <appender-ref ref="INSTALMENT_PROCESSOR_FILE_LOG" /> 
+    </logger> 
+
+	<root level="INFO">
+		<appender-ref ref="DAILY_FILE" />
+		<appender-ref ref="STDOUT" />
+	</root>
+
+</configuration>

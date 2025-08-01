@@ -1,0 +1,295 @@
+
+tabular:
+  default:
+    header:
+        stDateTime: "ঘটনার তারিখ ও সময়"
+        districtName: "জেলা"
+        locationName: "স্থান"
+        criminalDetails: "মূল হোতা"
+        casualties: "আহত/নিহত"
+        overView: "সংক্ষিপ্ত বিবরণ"
+        
+  table:
+    header:
+      14:
+        districtName: "জেলা"
+        locationName: "স্থান"
+        crimeType: "চাঁদাবাজির ধরণ"
+      19:
+        stDateTime: "ঘটনার তারিখ ও সময়"
+        crimeType: "চাঁদাবাজির ধরণ"
+        districtName: "জেলা ও স্থান"
+        criminalDetails: "মূল হোতা পরিচয়"
+        overView: "চাঁদাবাজির সুনির্দিষ্ট বিবরণ (সংক্ষিপ্ত বিবরণ)"
+        guestDetails: "মদদ দাতার নাম, পরিচয়"
+        
+      20:
+        stDateTime: "ঘটনার তারিখ ও সময়"
+        districtName: "জেলা"
+        locationName: "স্থান"
+        victimDetails: "ভিক্টিম এর পরিচয়"
+        overView: "বিবরণ"
+        criminalDetails: "হত্যাকারী/জড়িত ব্যক্তির নাম ও পরিচয়"
+        guestDetails: "মদদ দাতার নাম ও পরিচয়"
+        
+      21:
+        stDateTime: "ঘটনার তারিখ ও সময়"
+        districtName: "মামলার বিবরণ"
+        plaintiffDetails: "বাদীর পরিচয়"
+        defendantDetails: "বিবাদীর পরিচয়"
+        legalAdministrativeAction: "মামলার কার্যক্রম"
+        names: "রায়/সর্বশেষ অবস্থা"
+        
+      0001:
+        stDateTime: "ঘটনার তারিখ ও সময়"
+        locationName: "স্থান"
+        overView: "কর্মকাণ্ডের সংক্ষিপ্ত বিবরণ"
+        partyName: "নেতৃত্বদানকারী নাম"
+        names: "ঘটনাস্থল পুলিশ আইনশৃঙ্খলা ব্যবস্থা"
+        
+      32:
+        stDateTime: "ঘটনার তারিখ ও সময়"
+        locationName: "স্থান"
+        overView: "ঘটনার সংক্ষিপ্ত বিবরণ"
+        partyName: "দলের নাম"
+        sponsorDetails: "নেতৃত্বদানকারী"
+        legalAdminAction: "ঘটনার প্রেক্ষিতে গৃহীত আইনগত ব্যবস্থা"
+      34:
+        stDateTime: "ঘটনার তারিখ ও সময়"
+        locationName: "স্থান"
+        overView: "ঘটনার সংক্ষিপ্ত বিবরণ"
+        partyName: "দলের নাম"
+        sponsorDetails: "নেতৃত্বদানকারী"
+        legalAdminAction: "ঘটনার প্রেক্ষিতে গৃহীত আইনগত ব্যবস্থা"
+      35:
+        stDateTime: "ঘটনার তারিখ ও সময়"
+        locationName: "স্থান"
+        overView: "ঘটনার সংক্ষিপ্ত বিবরণ"
+        partyName: "দলের নাম"
+        sponsorDetails: "নেতৃত্বদানকারী"
+        legalAdminAction: "ঘটনার প্রেক্ষিতে গৃহীত আইনগত ব্যবস্থা"
+      36:
+        stDateTime: "ঘটনার তারিখ ও সময়"
+        locationName: "স্থান"
+        overView: "ঘটনার সংক্ষিপ্ত বিবরণ"
+        partyName: "দলের নাম"
+        sponsorDetails: "নেতৃত্বদানকারী"
+        legalAdminAction: "ঘটনার প্রেক্ষিতে গৃহীত আইনগত ব্যবস্থা" 
+      37:
+        stDateTime: "ঘটনার তারিখ ও সময়"
+        locationName: "স্থান"
+        overView: "ঘটনার সংক্ষিপ্ত বিবরণ"
+        partyName: "দলের নাম"
+        sponsorDetails: "নেতৃত্বদানকারী"
+        legalAdminAction: "ঘটনার প্রেক্ষিতে গৃহীত আইনগত ব্যবস্থা" 
+        
+      38:
+        stDateTime: "ঘটনার তারিখ ও সময়"
+        locationName: "স্থান"
+        overView: "ঘটনার সংক্ষিপ্ত বিবরণ"
+        partyName: "দলের নাম"
+        sponsorDetails: "নেতৃত্বদানকারী"
+        legalAdminAction: "ঘটনার প্রেক্ষিতে গৃহীত আইনগত ব্যবস্থা" 
+        
+      39:
+        stDateTime: "ঘটনার তারিখ ও সময়"
+        locationName: "স্থান"
+        overView: "ঘটনার সংক্ষিপ্ত বিবরণ"
+        partyName: "দলের নাম"
+        sponsorDetails: "নেতৃত্বদানকারী"
+        legalAdminAction: "ঘটনার প্রেক্ষিতে গৃহীত আইনগত ব্যবস্থা" 
+      40:
+        stDateTime: "ঘটনার তারিখ ও সময়"
+        locationName: "স্থান"
+        overView: "ঘটনার সংক্ষিপ্ত বিবরণ"
+        partyName: "দলের নাম"
+        sponsorDetails: "নেতৃত্বদানকারী"
+        legalAdminAction: "ঘটনার প্রেক্ষিতে গৃহীত আইনগত ব্যবস্থা" 
+      41:
+        stDateTime: "ঘটনার তারিখ ও সময়"
+        locationName: "স্থান"
+        overView: "ঘটনার সংক্ষিপ্ত বিবরণ"
+        partyName: "দলের নাম"
+        sponsorDetails: "নেতৃত্বদানকারী"
+        legalAdminAction: "ঘটনার প্রেক্ষিতে গৃহীত আইনগত ব্যবস্থা" 
+        
+      42:
+        stDateTime: "ঘটনার তারিখ ও সময়"
+        locationName: "স্থান"
+        overView: "ঘটনার সংক্ষিপ্ত বিবরণ"
+        partyName: "দলের নাম"
+        sponsorDetails: "নেতৃত্বদানকারী"
+        legalAdminAction: "ঘটনার প্রেক্ষিতে গৃহীত আইনগত ব্যবস্থা" 
+      43:
+        stDateTime: "ঘটনার তারিখ ও সময়"
+        locationName: "স্থান"
+        overView: "ঘটনার সংক্ষিপ্ত বিবরণ"
+        partyName: "দলের নাম"
+        sponsorDetails: "নেতৃত্বদানকারী"
+        legalAdminAction: "ঘটনার প্রেক্ষিতে গৃহীত আইনগত ব্যবস্থা"
+        
+      44:
+        stDateTime: "ঘটনার তারিখ ও সময়"
+        locationName: "স্থান"
+        overView: "ঘটনার সংক্ষিপ্ত বিবরণ"
+        partyName: "দলের নাম"
+        sponsorDetails: "নেতৃত্বদানকারী"
+        legalAdminAction: "ঘটনার প্রেক্ষিতে গৃহীত আইনগত ব্যবস্থা"  
+        
+      70:
+        stDateTime: "ঘটনার তারিখ ও সময়"
+        locationName: "স্থান"
+        overView: "ঘটনার সংক্ষিপ্ত বিবরণ"
+        partyName: "দলের নাম"
+        sponsorDetails: "নেতৃত্বদানকারী"
+        legalAdminAction: "ঘটনার প্রেক্ষিতে গৃহীত আইনগত ব্যবস্থা"  
+        
+      45:
+        stDateTime: "তারিখ ও সময়"
+        locationName: "স্থান"
+        partyName: "দলের নাম"
+        sponsorDetails: "নেতৃত্বদানকারী"
+        overView: "বিবরণ"
+        legalAdminActiontt: "মন্তব্য"
+        
+      46:
+        stDateTime: "তারিখ ও সময়"
+        locationName: "স্থান"
+        partyName: "দলের নাম"
+        sponsorDetails: "নেতৃত্বদানকারী"
+        overView: "বিবরণ"
+        legalAdminActiontt: "মন্তব্য"
+        
+      47:
+        stDateTime: "তারিখ ও সময়"
+        locationName: "স্থান"
+        partyName: "দলের নাম"
+        sponsorDetails: "নেতৃত্বদানকারী"
+        overView: "বিবরণ"
+        legalAdminActiontt: "মন্তব্য"
+        
+      48:
+        stDateTime: "তারিখ ও সময়"
+        locationName: "স্থান"
+        partyName: "দলের নাম"
+        sponsorDetails: "নেতৃত্বদানকারী"
+        overView: "বিবরণ"
+        legalAdminActiontt: "মন্তব্য"
+        
+      49:
+        stDateTime: "তারিখ ও সময়"
+        locationName: "স্থান"
+        partyName: "দলের নাম"
+        sponsorDetails: "নেতৃত্বদানকারী"
+        overView: "বিবরণ"
+        legalAdminActiontt: "মন্তব্য"
+        
+      50:
+        stDateTime: "তারিখ ও সময়"
+        locationName: "স্থান"
+        partyName: "দলের নাম"
+        sponsorDetails: "নেতৃত্বদানকারী"
+        overView: "বিবরণ"
+        legalAdminActiontt: "মন্তব্য"
+        
+      51:
+        stDateTime: "তারিখ ও সময়"
+        locationName: "স্থান"
+        partyName: "দলের নাম"
+        sponsorDetails: "নেতৃত্বদানকারী"
+        overView: "বিবরণ"
+        legalAdminActiontt: "মন্তব্য" 
+      
+      57:
+        stDateTime: "তারিখ ও সময়"
+        locationName: "স্থান"
+        partyName: "দলের নাম"
+        sponsorDetails: "নেতৃত্বদানকারী"
+        overView: "বিবরণ"
+        legalAdminActiontt: "মন্তব্য" 
+       
+      58:
+        stDateTime: "তারিখ ও সময়"
+        locationName: "স্থান"
+        partyName: "দলের নাম"
+        sponsorDetails: "নেতৃত্বদানকারী"
+        overView: "বিবরণ"
+        legalAdminActiontt: "মন্তব্য"  
+        
+      52:
+        stDateTime: "ঘটনার তারিখ ও সময়"
+        locationName: "স্থান"
+        overView: "ঘটনার সংক্ষিপ্ত বিবরণ"
+        partyName: "দলের নাম"
+        sponsorDetails: "নেতৃত্বদানকারী"
+        casualties: "আহত/নিহত"
+        legalAdminAction: "প্রশাসন কর্তৃক গৃহীত আইনগত ব্যবস্থা"
+        
+      53:
+        stDateTime: "ঘটনার তারিখ ও সময়"
+        locationName: "স্থান"
+        overView: "ঘটনার সংক্ষিপ্ত বিবরণ"
+        partyName: "দলের নাম"
+        sponsorDetails: "নেতৃত্বদানকারী"
+        casualties: "আহত/নিহত"
+        legalAdminAction: "প্রশাসন কর্তৃক গৃহীত আইনগত ব্যবস্থা"
+        
+      54:
+        stDateTime: "ঘটনার তারিখ ও সময়"
+        locationName: "স্থান"
+        overView: "ঘটনার সংক্ষিপ্ত বিবরণ"
+        partyName: "দলের নাম"
+        sponsorDetails: "নেতৃত্বদানকারী"
+        casualties: "আহত/নিহত"
+        legalAdminAction: "প্রশাসন কর্তৃক গৃহীত আইনগত ব্যবস্থা"
+      
+      55:
+        stDateTime: "ঘটনার তারিখ ও সময়"
+        locationName: "স্থান"
+        overView: "ঘটনার সংক্ষিপ্ত বিবরণ"
+        partyName: "দলের নাম"
+        sponsorDetails: "নেতৃত্বদানকারী"
+        legalAdminAction: "প্রশাসন কর্তৃক গৃহীত আইনগত ব্যবস্থা"
+        
+      56:
+        stDateTime: "ঘটনার তারিখ ও সময়"
+        districtName: "জেলা"
+        upazilaName: "উপজেলা"
+        parliamentarySeatName: "সংসদীয় আসন"
+        partyName: "দলের নাম"
+        sponsorDetails: "নেতৃত্বদানকারী"
+        overView: "ঘটনার সংক্ষিপ্ত বিবরণ"
+        casualties: "আহত/নিহত"
+        egalAdminActiontt: "মন্তব্য"
+        
+      59:
+        districtName: "জেলা"
+        locationName: "ঘটনাস্থল"
+        stDateTime: "ঘটনার তারিখ ও সময়"
+        overView: "ঘটনার বিবরণ"
+        sponsorDetails: "মদদদাতার নাম ও পরিচয়"
+        legalAdminAction: "প্রশাসন কর্তৃক গৃহীত ব্যবস্থা"
+        
+      60:
+        districtName: "জেলা"
+        locationName: "ঘটনাস্থল"
+        stDateTime: "ঘটনার তারিখ ও সময়"
+        overView: "ঘটনার বিবরণ"
+        sponsorDetails: "মদদদাতার নাম ও পরিচয়"
+        legalAdminAction: "প্রশাসন কর্তৃক গৃহীত ব্যবস্থা"
+        
+      61:
+        districtName: "জেলা"
+        locationName: "ঘটনাস্থল"
+        stDateTime: "ঘটনার তারিখ ও সময়"
+        overView: "ঘটনার বিবরণ"
+        sponsorDetails: "মদদদাতার নাম ও পরিচয়"
+        legalAdminAction: "প্রশাসন কর্তৃক গৃহীত ব্যবস্থা"
+        
+      62:
+        districtName: "জেলা"
+        locationName: "ঘটনাস্থল"
+        stDateTime: "ঘটনার তারিখ ও সময়"
+        overView: "ঘটনার বিবরণ"
+        sponsorDetails: "মদদদাতার নাম ও পরিচয়"
+        legalAdminAction: "প্রশাসন কর্তৃক গৃহীত ব্যবস্থা"
