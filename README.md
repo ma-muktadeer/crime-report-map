@@ -110,6 +110,26 @@ java -jar target/crime-report-app.jar
 Download the tiles file from [here](https://drive.google.com/file/d/1qqq_-lahYcgd8WJ9kcIeVQwzBa48aCHk/view?usp=sharing) and unzip it to the `client/dgfi-loc-tkr/src/assets` directory.  
 **This zip contains two folders: 1. tiles and 2. geojson**
 
+**The final Angular Application Structure Is Like
+```
+Angular/
+├── src/
+│   ├── app/
+│   ├── assets/
+|   |  ├── tiles
+|   |     └── pbf
+|   |        └── 0
+|   |        |  └── 0
+|   |        |    └── 0.pbf
+|   |        └── 1
+|   |          └── 0
+|   |            ├── 0.pbf
+|   |            └── ...
+│   └── index.html
+├── .mbtiles (not included)
+└── ...
+```
+
 ```bash
 # Navigate to frontend
 cd client/dgfi-loc-tkr
