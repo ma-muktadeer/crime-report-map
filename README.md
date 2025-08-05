@@ -188,6 +188,27 @@ Update **MapLibre-GL** config in Angular to point to this tile URL.
 
 ---
 
+## Some application screenshorts
+### 1. Login Page
+
+- **1**: <img src="sc/login.png" height="250">
+
+
+### 2. Map Searching Page
+
+| **1** | **2** |
+|-------|-------|
+| <img src="sc/mp1.png" height="250"> | <img src="sc/mp2.png" height="250"> |
+
+
+### 3. Map Downloaded Report
+
+| **1** | **2** |
+|-------|-------|
+| <img src="sc/rmap1.png" height="250"> | <img src="sc/rmap2.png" height="250"> |
+
+
+
 ## License
 
 This project is proprietary and intended for internal governmental/organizational use only.
